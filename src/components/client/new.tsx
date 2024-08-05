@@ -44,7 +44,9 @@ export default function NewClient() {
             setMessage('The client was saved successfully');
             setClient(blankClient);
         }catch(e){
-            setMessage(e.message);
+            if(e instanceof Error) {
+                setMessage(e.message);
+            }
         }
     }
 

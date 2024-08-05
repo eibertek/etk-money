@@ -12,6 +12,7 @@ interface MoveProps extends MoveSimplified {
 }
 
 const BLANK_MOVE: MoveProps = {
+    id: "",
     client: '' as unknown as Client['id'],
     currency: '' as unknown as Currency['id'],
     date: new Date(),
@@ -60,8 +61,10 @@ export default function NewMove() {
             storageHook(ENTITY_NAME).create({...move, id: hmacId.digest('hex')});        
             setMessage('The Move was saved successfully');
             setMove(BLANK_MOVE);
-        }catch(e){
-            setMessage(e.message);
+        }catch(error){
+            if(error instanceof Error) {
+                setMessage(error.message);
+            }
         }
     }
 

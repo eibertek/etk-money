@@ -2,8 +2,8 @@ import { Login } from "@/components/auth";
 import Image from "next/image";
 
 export default function Home() {
-  const mainUser = process.env.MAIN_USER;
-  const mainPassword = process.env.MAIN_PASSWORD;
+  const mainUser: string = process.env.MAIN_USER || "";
+  const mainPassword: string = process.env.MAIN_PASSWORD || "";
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">

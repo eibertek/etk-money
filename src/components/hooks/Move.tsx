@@ -27,6 +27,7 @@ export const useMove = (moveProps: moveProps) => {
 
     const income = (value: number) => {
         const move: MoveType = {
+            id: moveProps.id,
             client,
             date: new Date(),
             description: '',
@@ -40,6 +41,7 @@ export const useMove = (moveProps: moveProps) => {
 
     const outcome = (value: number) => {
         const move: MoveType = {
+            id: moveProps.id,
             client,
             date: new Date(),
             description: '',
@@ -59,7 +61,7 @@ export const useMove = (moveProps: moveProps) => {
         const returns = valuesMap.reduce((acc, value) => {
             return acc += value;
         }, 0);
-        console.log(propName, returns);
+
         return returns;
     }
 
