@@ -18,11 +18,35 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-image: linear-gradient(to top, #000000, #291513, #472613, #583f09, #565e02, #53750f, #458e27, #13a745, #14bc51, #12d25e, #0de86b, #00ff79);
+  background: linear-gradient(66.98deg, #FFFFFF 1.29%, #164E13 87.96%);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.m-plus-1p-regular {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.m-plus-1p-medium {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.m-plus-1p-bold {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.m-plus-1p-extrabold {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 800;
+  font-style: normal;
 }
