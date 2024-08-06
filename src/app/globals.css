@@ -18,16 +18,35 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(66.98deg, #FFFFFF 1.29%, #164E13 87.96%);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.m-plus-1p-regular {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.m-plus-1p-medium {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.m-plus-1p-bold {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.m-plus-1p-extrabold {
+  font-family: "M PLUS 1p", sans-serif;
+  font-weight: 800;
+  font-style: normal;
 }

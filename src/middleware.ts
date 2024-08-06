@@ -10,12 +10,12 @@ export function middleware(request: NextRequest) {
       const passCode = request.nextUrl.searchParams.get('userKey');
       passCode && response.cookies.set("user_loggedin", passCode);      
     }else {
-      return NextResponse.redirect(new URL('/blog', request.url));
+      return NextResponse.redirect(new URL('/money', request.url));
     }
   }
   if(request.nextUrl.pathname.startsWith('/money')){
     if(!request.cookies.get("user_loggedin")){      
-      return NextResponse.redirect(new URL('/blog', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
   }
   return response;
