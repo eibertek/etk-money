@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { Client, CLIENT_TYPES } from '@/types/wallet';
-import { storageHook } from '../hooks/Storage';
-import crypto from "crypto"
+import crypto from "crypto";
+import { storageHook } from '@/components/hooks/Storage';
+import Dropdown from '@/components/shared/select';
+import Input from '@/components/shared/input';
+import Button from '@/components/shared/button';
+
 const blankClient = {
     id: '',
     companyName: '',
@@ -10,7 +14,7 @@ const blankClient = {
     address: '',
     type: "" as Client["type"],
 };
-export default function NewClient() {
+export default function NewClient({ isShortForm=false }) {
     const [client, setClient] = useState(blankClient);
 
     const [message, setMessage] = useState('');
@@ -19,14 +23,6 @@ export default function NewClient() {
         setClient({...client, [field]: value});
         setMessage('');
     };
-
-    const ClientDropdown = () => {
-        const clientOptions  = CLIENT_TYPES.map((value)=> <option key={`key_client_${value}`} value={value}>{value}</option>);        
-        return <select name={'type'} className='text-black' value={client.type}  onChange={({target})=> onChange(target.name, target.value)}>
-            <option value={""}>--select a value --</option>        
-            {clientOptions}
-        </select>;
-    }
 
     const validations = () => {
         if(client.companyName === "" && (client.name + client.lastName) === "") return false;
@@ -50,32 +46,28 @@ export default function NewClient() {
         }
     }
 
-    return (
-        <div  className='text-white flex flex-col text-left justify-start w-full max-w-lg'>
-            <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <label htmlFor='companyName'>Company:</label>
-                <input className="text-black"  name={'companyName'} value={client.companyName} onChange={({target})=> onChange(target.name, target.value)} />
-            </div>
-            <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <label htmlFor='name'>Name:</label>
-                <input className="text-black" name={'name'} value={client.name} onChange={({target})=> onChange(target.name, target.value)} />
-            </div>
-            <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <label htmlFor='lastName'>Last Name:</label>
-                <input className="text-black" name={'lastName'} value={client.lastName} onChange={({target})=> onChange(target.name, target.value)} />
-            </div>
-            <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <label htmlFor='address'>Address:</label>
-                <input className="text-black" name={'address'} value={client.address}  onChange={({target})=> onChange(target.name, target.value)} />
-            </div>
-            <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <label htmlFor='type'>Type:</label>
-                <ClientDropdown />
-            </div>
-            <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <button onClick={()=>saveClient()}>Save</button>
-            </div>
-            {message && <div>{message}</div>}
-        </div>
-    )
+    const longForm = () => (
+        <div className='text-white flex flex-col justify-start'>
+            <Input field={'companyName'} value={client.companyName as unknown as string} onChange={onChange} />
+            <Input field={'name'} value={client.name as unknown as string} onChange={onChange} />
+            <Input field={'lastName'} value={client.lastName as unknown as string} onChange={onChange} />
+            <Input field={'address'} value={client.address as unknown as string} onChange={onChange} />
+            <Dropdown field='type' value={client.type} onChange={onChange} options={CLIENT_TYPES.map((value)=>value) as unknown as any} optionLabel={(item)=>item}/>            
+
+            <Button onClick={()=>saveClient()}>Save</Button>
+        </div>        
+    );
+
+    const shortForm = () => (
+        <div className='text-white flex flex-col justify-start'>
+            <Input field={'companyName'} value={client.companyName as unknown as string} onChange={onChange} />
+            <Dropdown field='type' value={client.type} onChange={onChange} options={CLIENT_TYPES.map((value)=>value) as unknown as any} optionLabel={(item)=>item} />            
+            <Button onClick={()=>saveClient()}>Save</Button>
+        </div>    
+    );
+
+    return (<>
+    {isShortForm ? shortForm() : longForm()}
+    {message && <div>{message}</div>}
+    </>)
 }
