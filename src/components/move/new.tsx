@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Client, Currency, Move } from '@/types/wallet';
-import { storageHook } from '../hooks/Storage';
-import crypto from "crypto"
+import { Client, CLIENT_TYPES, Currency, Move } from '@/types/wallet';
+import crypto from "crypto";
+import { storageHook } from '@/components/hooks/Storage';
+import Dropdown from '@/components/shared/select';
+import Input from '@/components/shared/input';
+import Button from '@/components/shared/button';
+import NewClient from '../client/new';
 
 type MoveSimplified = Omit<Move, 'date' | 'client' | 'currency'>;
 
@@ -22,13 +26,16 @@ const BLANK_MOVE: MoveProps = {
 };
 const ENTITY_NAME = 'move';
 
-const btnClassName = "block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-[15rem]";
-
-
 export default function NewMove() {
     const [move, setMove] = useState(BLANK_MOVE);
     const [clients, setClients] = useState([]);
     const [currencies, setCurrencies] = useState([]);
+    const [isClientOpen, setClientOpen] = useState(false);
+    const [client, setClient] = useState({
+        companyName: '',
+        type: '',
+    });
+
     useEffect(() => {
         const clients = storageHook('client').getAll();
         const currencies = storageHook('currencies').getAll();
@@ -36,6 +43,11 @@ export default function NewMove() {
         setClients(clients);
     }, []);
     const [message, setMessage] = useState('');
+
+    const onChangeClient = (field: string, value: string | number) => {
+        setClient({...client, [field]: value});
+        setMessage('');
+    };
 
     const onChange = (field: string, value: string | number) => {
         setMove({...move, [field]: value});
@@ -68,64 +80,54 @@ export default function NewMove() {
         }
     }
 
-    const ClientsDropdown = () => {
-        const clientOptions = clients.map((value: Client) => <option key={`key_client_${value.id}`} value={value.id}>{value.companyName || value.name}</option>);
-        return <select name={'client'} className='text-black' value={move.client} onChange={({ target }) => onChange(target.name, target.value)}>
-            <option value={""}>--select a value --</option>
-            {clientOptions}
-        </select>;
+    const saveClient = () => {
+        const hmacId = crypto.createHmac('sha256',`${client.companyName}`);
+        storageHook('client').create({...client, id: hmacId.digest('hex')});        
+        setMessage('The client was saved successfully');
+        const clients = storageHook('client').getAll();
+        setClients(clients);
     }
 
-    const CurrenciesDropdown = () => {
-        const currenciesOptions = currencies.map((value: Currency) => <option key={`key_currency_${value.id}`} value={value.id}>{value.id}</option>);
-        return <select name={'currency'} className='text-black' value={move.currency} onChange={({ target }) => onChange(target.name, target.value)}>
-            <option value={""}>--select a value --</option>
-            {currenciesOptions}
-        </select>;
-    }
-
+    const shortForm = () => (
+        <div className='text-white absolute right-[10%] top-[20%] justify-start w-[400px]'>
+            <Input field={'companyName'} value={client.companyName as unknown as string} onChange={onChangeClient} />
+            <Dropdown field='type' value={client.type} onChange={onChangeClient} options={CLIENT_TYPES.map((value)=>value) as unknown as any} optionLabel={(item)=>item} />            
+            <Button onClick={()=>saveClient()}>Save</Button>
+        </div>    
+    );
+    
     return (
-        <div className='text-white flex flex-col text-left justify-start w-full max-w-lg'>
+        <div className='text-white flex flex-col justify-start'>
             {Object.keys(BLANK_MOVE).map((field) => {
                 switch (field) {
+                    case 'id':
+                        return;
                     case 'client':
-                        return <div className='w-full flex justify-between px-3 mb-6'>
-                            <label htmlFor='type'>{field}</label>
-                            <ClientsDropdown />
-                        </div>
+                        return (<div className='flex flex-row'>
+                        <Dropdown 
+                            field='client'
+                            value={move.client} 
+                            onChange={onChange} 
+                            options={clients} 
+                            optionLabel={(client: Client)=> client.companyName ? client.companyName : `${client.name} ${client.lastName}` } />
+                        <Button onClick={()=>setClientOpen(!isClientOpen)}>{'New Client'}</Button>                        
+                        </div>);
                     case 'currency':
-                        return <div className='w-full flex justify-between px-3 mb-6'>
-                            <label className="mr-4" htmlFor='type'>{field}</label>
-                            <CurrenciesDropdown />
-                        </div>                        
+                        return <Dropdown field='currency' value={move.currency} onChange={onChange} options={currencies} optionLabel={(moveItem)=>moveItem.id} />;
                     case 'date':
-                        return (<div className='w-full flex justify-between px-3 mb-6'>
-                            <label className="mr-4" htmlFor={field}>{field}</label>
-                            <input type='date' className="text-black px-3" name={field} value={move[field] as unknown as string} onChange={({ target }) => onChange(target.name, target.value)} />
-                        </div>)
+                        return <Input type={'date'} field={field} value={move[field] as unknown as string} onChange={onChange} />;
                     case 'description':
-                        return (<div className='w-full flex justify-between px-3 mb-6'>
-                            <label className="mr-4" htmlFor={field}>{field}</label>
-                            <input className="text-black px-3" name={field} value={move[field] as unknown as string} onChange={({ target }) => onChange(target.name, target.value)} />
-                        </div>)                        
+                        return <Input field={field} value={move[field] as unknown as string} onChange={onChange} />;                        
                     case 'income':
                     case 'outcome':
-                        return (<div className='w-full flex justify-between px-3 mb-6'>
-                            <label className="mr-4" htmlFor={field}>{field}</label>
-                            <input type="number" className="text-black px-3" name={field} value={move[field as keyof MoveSimplified]} onChange={({ target }) => onChange(target.name, Number.parseFloat(target.value))} />
-                        </div>)
+                        return <Input field={field} value={move[field] as unknown as string} onChange={onChange} type={'number'}/>;                        
                     default:
-                        return (<div className='w-full flex justify-between px-3 mb-6'>
-                            <label className="mx-4" htmlFor={field}>{field}</label>
-                            <input className="text-black px-3" name={field} value={move[field as keyof MoveSimplified]} onChange={({ target }) => onChange(target.name, target.value)} />
-                        </div>)
+                        return <Input field={field} value={move[field as keyof MoveSimplified] as unknown as string} onChange={onChange} />;
                 }
             })}
-
-            <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <button className={`${btnClassName} flex justify-between my-5`} onClick={()=>saveMove()}>Save</button>
-            </div>
+            <Button onClick={()=>saveMove()}>Save</Button>
             {message && <div>{message}</div>}
+            <div>{isClientOpen && shortForm()}</div>
         </div>
     )
 }
