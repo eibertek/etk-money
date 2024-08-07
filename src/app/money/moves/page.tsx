@@ -11,7 +11,7 @@ export default function MoneyPage(props: any) {
     const [isOpen, setOpen] = useState({ new: false, manage: false });
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-evenly p-24">
+        <main className="flex min-h-screen flex-col items-center px-24">
             <section className="w-full text-center">
                 <div><Link href={"/money/"}>{`<-`} Back to Dashboard</Link></div>
                 <h2 className="text-5xl py-5 text-center">Money</h2>

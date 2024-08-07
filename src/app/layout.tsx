@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { M_PLUS_1p } from "next/font/google";
 import "./globals.css";
-import Head from "next/head";
+import Image from "next/image";
 
 const inter = M_PLUS_1p({ weight: '400', subsets: ["latin"] });
 
@@ -17,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="flex flex-row items-center text-7xl w-auto"><Image src={'/logo.svg'} className="mx-5" alt="logo" width={100} height={100} />EIBERTEK</div>        
+        {children}
+      </body>
     </html>
   );
 }
