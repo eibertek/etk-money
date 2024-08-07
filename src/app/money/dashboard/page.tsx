@@ -5,7 +5,7 @@ const btnClassName="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
 
 export default function MoneyPage(props: any) {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-evenly p-24">
+        <main className="flex min-h-screen flex-col items-center px-24">
             <Dashboard />
             <section className="w-full text-center">
                 <h2 className="text-5xl py-5 text-center">Control Panel</h2>
