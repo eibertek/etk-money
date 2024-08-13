@@ -12,7 +12,7 @@ export type Client = {
 export type Currency = {
     id: string;
     name: string;
-    value_from?: Currency;
+    value_from?: Currency["id"];
     value: number;
     lastUpdate: Date;
 }
@@ -25,8 +25,8 @@ export type Wallet = {
 
 export type Move = {
     id: string;
-    client: Client;    
-    currency: Currency;
+    client: Client["id"];    
+    currency: Currency["id"];
     date?: Date;
     income?: number;
     outcome?: number;

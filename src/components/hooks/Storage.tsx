@@ -5,7 +5,7 @@ type Entity = {
 };
 
 export const storageHook = (entityName: string) => {
-
+    if(!sessionStorage) return;
     const getAll = () => {
         const allItems = JSON.parse(sessionStorage.getItem(entityName) || '{}');
         return allItems[entityName] || [];

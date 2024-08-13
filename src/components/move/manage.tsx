@@ -29,21 +29,23 @@ export default function ManageClient() {
     return (
         <div className='text-white flex flex-col text-left w-full'>
             <div className='grid grid-cols-1 w-full'>
-                <div className='grid grid-cols-5'>
+                <div className='grid grid-cols-6 mb-4 font-bold'>
                     <div className='w-[10rem]'>Client</div>
                     <div>Currency</div>
                     <div>Income</div>
                     <div>Outcome</div>
+                    <div>Description</div>
                 </div>
                 {moves.map((move: Move) => {
                     const client: Client = clients.find((client: Client)=> client.id === move.client as unknown as string) as unknown as Client;
                     const clientName = client.companyName || client.name + ' ' + client.lastName;
                     return (
-                        <div key={`key_move_${move.id}`} className='grid grid-cols-5'>
+                        <div key={`key_move_${move.id}`} className='grid grid-cols-6'>
                             <div className='w-[15rem]'>{clientName}</div>
                             <div className='w-[10rem]'>{move.currency as unknown as string}</div>
                             <div>{move.income}</div>
                             <div>{move.outcome}</div>
+                            <div>{move.description}</div>
                             <div>
                                 <button className={btnClassName} onClick={()=>removeMove(move)}>Remove</button>
                             </div>                            

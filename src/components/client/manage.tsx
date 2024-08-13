@@ -9,6 +9,7 @@ export default function ManageClient() {
 
     const [message, setMessage] = useState('');
     useEffect(()=>{
+        console.log(message);
         setClients(storageHook('client').getAll());
     }, []);
 
