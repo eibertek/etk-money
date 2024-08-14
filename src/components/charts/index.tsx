@@ -8,7 +8,7 @@ import { Move } from '@/types/wallet';
 
 const constructData = (moves: Move[]) => {
     const movesByMonth = {};
-    moves.forEach((element:Move) => {
+    moves && moves.length && moves.forEach((element:Move) => {
         const month: number = element?.date && new Date(element?.date).getUTCMonth() || 0;
         if(month){
             if((movesByMonth as any)[month] && (movesByMonth as any)[month].length) {
@@ -24,7 +24,6 @@ const constructData = (moves: Move[]) => {
         return (movesByMonth as any)[monthNumber].reduce((prev: number, el: { income: any; })=> prev+=parseFloat(el.income || "0"),0);
     };
     
-    console.log(movesByMonth, getIncomesFromMonth(7));
     return {
         labels: ['January', 'February', 'March', 'April'],
         datasets: [
