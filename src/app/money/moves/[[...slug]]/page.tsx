@@ -15,7 +15,7 @@ interface IMovePageProps {
 
 export default function MoneyPage(props: IMovePageProps) {
     const slug = props.params?.slug || []; 
-    const isOpen = { new: slug.includes('new') || false, manage: slug.includes('manage') || false };
+    const isOpen = { new: slug.includes('new' as never) || false, manage: slug.includes('manage' as never) || false };
 
     return (
         <main className="flex min-h-screen flex-col items-center px-24">

@@ -1,35 +1,36 @@
 // page.js this is the entry point of application
 
 "use client";
-import dynamic from 'next/dynamic';
 import { Line, Bar} from 'react-chartjs-2';
 import { storageHook } from "../hooks/Storage";
 import 'chart.js/auto';
 import { Move } from '@/types/wallet';
 
-const constructData = (moves) => {
+const constructData = (moves: Move[]) => {
     const movesByMonth = {};
     moves.forEach((element:Move) => {
         const month: number = element?.date && new Date(element?.date).getUTCMonth() || 0;
         if(month){
-            if(movesByMonth[month] && movesByMonth[month].length) {
-                movesByMonth[month].push(element);
+            if((movesByMonth as any)[month] && (movesByMonth as any)[month].length) {
+                (movesByMonth as any)[month].push(element);
             }else{
-                movesByMonth[month] = [element];
+                (movesByMonth as any)[month] = [element];
             }
         }
     });
-    const getIncomesFromMonth = (monthNumber) => {
-        if(!movesByMonth[monthNumber]) return 0;
-        return movesByMonth[monthNumber].reduce((prev, el)=> prev+=parseFloat(el.income || "0"),0);
+
+    const getIncomesFromMonth = (monthNumber:number) => {
+        if(!(movesByMonth as any)[monthNumber]) return 0;
+        return (movesByMonth as any)[monthNumber].reduce((prev: number, el: { income: any; })=> prev+=parseFloat(el.income || "0"),0);
     };
+    
     console.log(movesByMonth, getIncomesFromMonth(7));
     return {
         labels: ['January', 'February', 'March', 'April'],
         datasets: [
           {
             label: 'GeeksforGeeks Line Chart',
-            data: [getIncomesFromMonth(4), getIncomesFromMonth(5), getIncomesFromMonth(6), getIncomesFromMonth(7)],
+            data: [getIncomesFromMonth(1), getIncomesFromMonth(2), getIncomesFromMonth(3), getIncomesFromMonth(4)],
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1,

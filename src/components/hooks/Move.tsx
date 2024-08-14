@@ -28,10 +28,10 @@ export const useMove = (moveProps: moveProps) => {
     const income = (value: number) => {
         const move: MoveType = {
             id: moveProps.id,
-            client,
+            client: client.id,
             date: new Date(),
             description: '',
-            currency: defaultCurrency,
+            currency: defaultCurrency.id,
             income: value,
         };
 
@@ -42,10 +42,10 @@ export const useMove = (moveProps: moveProps) => {
     const outcome = (value: number) => {
         const move: MoveType = {
             id: moveProps.id,
-            client,
+            client: client.id,
             date: new Date(),
             description: '',
-            currency: defaultCurrency,
+            currency: defaultCurrency.id,
             outcome: value,
         };
 
