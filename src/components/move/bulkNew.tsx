@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { storageHook } from '@/components/hooks/Storage';
-import { Client } from "@/types/wallet";
+import { Client, Currency } from "@/types/wallet";
 
 
 interface IBulkNewProps { }
@@ -26,8 +26,12 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
         }});
     };
 
-    const clientSelect = (row:number) => <select name={`row_name_${row}`} className="w-full" onChange={({ target} )=>setField(row, target.name, target.value)} >
+    const clientSelect = (row:number) => <select name={`row_client_${row}`} className="w-full" onChange={({ target} )=>setField(row, target.name, target.value)} >
         {clients.map((client:Client, i:number)=> <option key={`option_row_${row}_${i}`} value={client.id}>{client.companyName}</option>)}
+    </select>;
+
+    const currencySelect = (row:number) => <select name={`row_currency_${row}`} className="w-full" onChange={({ target} )=>setField(row, target.name, target.value)} >
+        {currencies.map((currency:Currency, i:number)=> <option key={`option_row_${row}_${i}`} value={currency.id}>{currency.name}</option>)}
     </select>;
 
     return (<div>
@@ -48,7 +52,7 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
                     <div key={`key_row_${i}`} className="grid grid-cols-5 text-black w-full">
                         <div className="border border-gray-400"><input type="date" className="w-full" /></div>
                         <div className="border border-gray-400">{clientSelect(i)}</div>
-                        <div className="border border-gray-400"><input /></div>
+                        <div className="border border-gray-400">{currencySelect(i)}<input /></div>
                         <div className="border border-gray-400"><input /></div>
                         <div className="border border-gray-400"><input /></div>
                     </div>
