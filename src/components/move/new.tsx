@@ -14,7 +14,7 @@ interface MoveProps extends MoveSimplified {
     date: Move['date'];
 }
 
-const BLANK_MOVE: MoveProps = {
+export const BLANK_MOVE: MoveProps = {
     id: "",
     client: '' as unknown as Client['id'],
     currency: '' as unknown as Currency['id'],

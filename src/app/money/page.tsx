@@ -36,8 +36,8 @@ export default function MoneyPage(props: any) {
                 <div className="flex flex-row justify-around">
                     <div className="flex-col flex border p-5 border-spacing-4 border-blue-300">
                         <h3 className="text-4xl pb-4">Client</h3>
-                        <div><Link className={btnClassName} href={"/money/client"}>New</Link></div>
-                        <div><Link className={btnClassName} href={"/money/client"}>Manage</Link></div>
+                        <div><Link className={btnClassName} href={"/money/client/new"}>New</Link></div>
+                        <div><Link className={btnClassName} href={"/money/client/manage"}>Manage</Link></div>
                     </div>
                     {isSavings && <div className="flex-col flex p-5 border border-spacing-4 border-blue-300">
                         <h3 className="text-4xl pb-4">Savings</h3>
@@ -46,8 +46,9 @@ export default function MoneyPage(props: any) {
                     </div>}
                     <div className="flex-col flex p-5 border border-spacing-4 border-blue-300">
                         <h3 className="text-4xl pb-4">Money</h3>
-                        <div><Link className={btnClassName} href={"/money/moves"}>New</Link></div>
-                        <div><Link className={btnClassName} href={"/money/moves"}>Manage</Link></div>
+                        <div><Link className={btnClassName} href={"/money/moves/new"}>New</Link></div>
+                        <div><Link className={btnClassName} href={"/money/moves/manage"}>Manage</Link></div>
+                        <div><Link className={btnClassName} href={"/money/moves/bulk"}>create Moves with grid</Link></div>
                     </div>
                 </div>
             </section>
