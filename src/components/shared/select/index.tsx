@@ -9,7 +9,7 @@ interface SelectProps {
 };
 
 export const Component = ({field, options, value, onChange, optionLabel}: SelectProps) => {
-    const itemsOptions = options.map((itemValue: any) => <option key={`key_currency_${itemValue.id}`} value={itemValue.id}>{optionLabel(itemValue)}</option>);
+    const itemsOptions = options.map((itemValue: any, index: number) => <option key={`key_dropdown_${index}_${itemValue.id}`} value={itemValue.id}>{optionLabel(itemValue)}</option>);
     return (
         <div className='py-4 flex items-center  justify-between text-start'>
             <label className="mb-2 w-[100px] capitalize" htmlFor={field}>{field}</label>

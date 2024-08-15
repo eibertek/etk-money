@@ -1,8 +1,7 @@
 "use client";
-
-import { useState } from "react";
 import NewMove from "@/components/move/new";
 import ManageMove from "@/components/move/manage";
+import BulkNew from "@/components/move/bulkNew";
 import Link from "next/link";
 
 const btnClassName = "block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-[15rem]";
@@ -13,7 +12,7 @@ interface IMovePageProps {
 
 export default function MoneyPage(props: IMovePageProps) {
     const slug = props.params?.slug || []; 
-    const isOpen = { new: slug.includes('new') || false, manage: slug.includes('manage') || false };
+    const isOpen = { new: slug.includes('new') || false, manage: slug.includes('manage') || false, bulk: slug.includes('bulk') || false };
 
     return (
         <main className="flex min-h-screen flex-col items-center px-24">
@@ -29,6 +28,7 @@ export default function MoneyPage(props: IMovePageProps) {
                     <div className="mx-4">
                         {isOpen.new && <NewMove />}
                         {isOpen.manage && <ManageMove />}
+                        {isOpen.bulk && <BulkNew />}                        
                     </div>
                 </div>
             </section>

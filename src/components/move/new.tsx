@@ -5,7 +5,6 @@ import { storageHook } from '@/components/hooks/Storage';
 import Dropdown from '@/components/shared/select';
 import Input from '@/components/shared/input';
 import Button from '@/components/shared/button';
-import NewClient from '../client/new';
 
 type MoveSimplified = Omit<Move, 'date' | 'client' | 'currency'>;
 
@@ -42,6 +41,7 @@ export default function NewMove() {
         setCurrencies(currencies);
         setClients(clients);
     }, []);
+
     const [message, setMessage] = useState('');
 
     const onChangeClient = (field: string, value: string | number) => {

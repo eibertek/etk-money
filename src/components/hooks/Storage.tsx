@@ -38,7 +38,6 @@ export const storageHook = (entityName: string) => {
         if(typeof sessionStorage === 'undefined') return;
         const items = getAll();
         const itemsFiltered = items.filter((item: Entity) => item.id !== entity.id);
-        console.log(entity.id, itemsFiltered);
         save(itemsFiltered);
     }
 
