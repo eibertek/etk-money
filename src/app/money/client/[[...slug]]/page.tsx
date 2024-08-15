@@ -1,21 +1,17 @@
 "use client";
-
-import { useState } from "react";
 import NewClient from "@/components/client/new";
 import ManageClient from "@/components/client/manage";
 import Link from "next/link";
 
 const btnClassName = "block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-[15rem]";
 interface IClientPageProps {
-    newOpened: boolean;
-    manageOpened: boolean;
-    params: { slug: string };
-    searchParams: { [key: string]: string | string[] | undefined }
+    params: { slug: string[] | string };
+    searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export default function ClientPage(props: IClientPageProps) {
     const slug = props.params?.slug || []; 
-    const isOpen = { new: slug.includes('new' as never) || false, manage: slug.includes('manage' as never) || false };
+    const isOpen = { new: slug.includes('new') || false, manage: slug.includes('manage') || false };
 
     return (
         <main className="flex min-h-screen flex-col items-center px-24">
