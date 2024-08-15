@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { storageHook } from '@/components/hooks/Storage';
 import { Client, Currency, Move } from "@/types/wallet";
 import crypto from "crypto";
@@ -87,6 +87,7 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
             resultMessages.push(saveMove(move));
         } 
 
+        //@ts-ignore
         setMessage(resultMessages.map((message, index) => <div key={`i_message_${index}`}>Registry {index}: {message}</div>));
     };
 
