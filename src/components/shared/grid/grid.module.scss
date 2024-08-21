@@ -1,0 +1,27 @@
+
+
+.grid {
+    display: grid;    
+    .grid__header--row {
+        display: grid;
+
+        & > div {
+            border-right: 0.25rem solid black;
+            border-top: 0.25rem solid black;
+            border-bottom: 0.25rem solid black;
+        }
+        & > div:first-child {
+            border-left: 0.25rem solid black;
+        }
+    }
+    .grid--row {
+        display: grid;
+        & > div {
+            border-right: 0.125rem solid black;
+            border-bottom: 0.125rem solid black;
+        }
+        & > div:nth-child(5n+1) {
+            border-left: 0.125rem solid black;
+        }
+    }    
+}
