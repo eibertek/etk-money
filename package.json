@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/modal": "^2.0.39",
     "chart.js": "^4.4.3",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",

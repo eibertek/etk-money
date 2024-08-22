@@ -1,11 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { storageHook } from '@/components/hooks/Storage';
 import { Client, Currency, Move } from "@/types/wallet";
 import crypto from "crypto";
 import { Grid } from "../shared/grid";
 import ButtonLink from "../shared/button/LinkButton";
+import { ModalContext } from "../shared/dialog/modalContext";
 
-interface IBulkNewProps { }
+interface IBulkNewProps { 
+    setModalOpen?: any;
+ }
 interface IGridData {
     [row: number]: {
         [name: string]: any,
@@ -13,13 +16,14 @@ interface IGridData {
 }
 const ENTITY_NAME = 'move';
 
-const BulkNew = (bulkNewProps: IBulkNewProps) => {
+const BulkNew = ({setModalOpen}: IBulkNewProps) => {
     const [rowNum, setRowNum] = useState(1);
     const [clients, setClients] = useState([]);
     const [currencies, setCurrencies] = useState([]);
     const [gridData, setGridData] = useState({} as IGridData);
     const [message, setMessage] = useState([]);
-    const [bulk, setBulk] = useState({ client:"", currency:""});
+    const [bulk, setBulk] = useState({ client: "", currency: "" });
+    const modal = useContext(ModalContext);
 
     const getRowData = (row: number, name: string) => {
         if (!gridData[row]) return "";
@@ -31,7 +35,7 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
         const currencies = storageHook('currencies').getAll();
         setCurrencies(currencies);
         setClients(clients);
-    }, []);
+    }, [modal]);
 
     const setField = (row: number, name: string, value: any) => {
         setGridData({
@@ -43,11 +47,11 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
     };
 
     const setAllFields = (name: string, value: any) => {
-        setBulk({...bulk, [name]: value});
+        setBulk({ ...bulk, [name]: value });
         Array(rowNum).fill(1).forEach((_a, i) => {
-            if(gridData[i]) {
+            if (gridData[i]) {
                 gridData[i][name] = value;
-            }else{
+            } else {
                 gridData[i] = { [name]: value };
             }
         });
@@ -136,14 +140,16 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
                         ];
                     }).flat()}
                 </Grid>
-                <div className="w-full py-5 grid justify-center"><ButtonLink type="green" onClick={save}>Save</ButtonLink></div>
                 <div>{message}</div>
             </div>
             <div className="flex flex-col text-black p-5 w-[200px]">
+                <div className="w-full py-5 grid justify-center">
+                    <ButtonLink type="green" width="40px" onClick={() => setModalOpen(true)}>New Account</ButtonLink></div>
                 <div className="text-black">Same client</div>
                 <div>{bulkClientSelect()}</div>
                 <div className="text-black">Same currency</div>
                 <div>{bulkCurrencySelect()}</div>
+                <div className="w-full py-5 grid justify-center"><ButtonLink type="green" width="40px" onClick={save}>Save</ButtonLink></div>
             </div>
         </div>
     );
