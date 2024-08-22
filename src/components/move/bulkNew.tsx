@@ -19,6 +19,7 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
     const [currencies, setCurrencies] = useState([]);
     const [gridData, setGridData] = useState({} as IGridData);
     const [message, setMessage] = useState([]);
+    const [bulk, setBulk] = useState({ client:"", currency:""});
 
     const getRowData = (row: number, name: string) => {
         if (!gridData[row]) return "";
@@ -41,14 +42,36 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
         });
     };
 
+    const setAllFields = (name: string, value: any) => {
+        setBulk({...bulk, [name]: value});
+        Array(rowNum).fill(1).forEach((_a, i) => {
+            if(gridData[i]) {
+                gridData[i][name] = value;
+            }else{
+                gridData[i] = { [name]: value };
+            }
+        });
+        setGridData(gridData);
+    };
+
     const clientSelect = (row: number = -1) => <select name={`client`} className="bg-transparent" value={getRowData(row, "client")} onChange={({ target }) => setField(row, target.name, target.value)} >
-        <option key={`option_row_${row}_default`} value={""}> -- select a value -- </option>
-        {clients.map((client: Client, i: number) => <option key={`option_row_${row}_${i}`} value={client.id}>{client.companyName}</option>)}
+        <option key={`option_client_row_${row}_default`} value={""}> -- select a value -- </option>
+        {clients.map((client: Client, i: number) => <option key={`option_client_row_${row}_${i}`} value={client.id}>{client.companyName}</option>)}
     </select>;
 
     const currencySelect = (row: number = -1) => <select name={`currency`} className="bg-transparent" value={getRowData(row, "currency")} onChange={({ target }) => setField(row, target.name, target.value)} >
-        <option key={`option_row_${row}_default`} value={""}> -- select a value -- </option>
-        {currencies.map((currency: Currency, i: number) => <option key={`option_row_${row}_${i}`} value={currency.id}>{currency.id}</option>)}
+        <option key={`option_currency_row_${row}_default`} value={""}> -- select a value -- </option>
+        {currencies.map((currency: Currency, i: number) => <option key={`option_currency_row_${row}_${i}`} value={currency.id}>{currency.id}</option>)}
+    </select>;
+
+    const bulkClientSelect = () => <select name={`client`} value={bulk.client} onChange={({ target }) => setAllFields(target.name, target.value)} >
+        <option key={`option_bcl_row_default`} value={""}> -- select a value -- </option>
+        {clients.map((client: Client, i: number) => <option key={`option_client_row_${i}`} value={client.id}>{client.companyName}</option>)}
+    </select>;
+
+    const bulkCurrencySelect = () => <select name={`currency`} value={bulk.currency} onChange={({ target }) => setAllFields(target.name, target.value)} >
+        <option key={`option_bcu_row_default`} value={""}> -- select a value -- </option>
+        {currencies.map((currency: Currency, i: number) => <option key={`option_currency_row_${i}`} value={currency.id}>{currency.id}</option>)}
     </select>;
 
     const validations = (move: Move) => {
@@ -96,28 +119,32 @@ const BulkNew = (bulkNewProps: IBulkNewProps) => {
     };
 
     return (
-        <div>
-            <div className="flex flex-row text-black pb-5">
-                <div className="text-white px-4">Select number fo rows</div>
-                <select name="row_num" value={rowNum} onChange={({ target }) => setRowNum(parseInt(target.value))}>{Array(12).fill(1).map((v, i) => <option key={`row_${i + 1}`} value={i + 1}>{i + 1}</option>)}</select>
-                <div className="text-white px-4">same client</div>
-                <div>{clientSelect()}</div>
-                <div className="text-white px-4">same currency</div>
-                <div>{currencySelect()}</div>
+        <div className="flex">
+            <div>
+                <div className="flex flex-row py-5">
+                    <div className="text-black">Select number for rows</div>
+                    <select name="row_num" className="text-black self-center mx-5" value={rowNum} onChange={({ target }) => setRowNum(parseInt(target.value))}>{Array(12).fill(1).map((v, i) => <option key={`row_${i + 1}`} value={i + 1}>{i + 1}</option>)}</select>
+                </div>
+                <Grid cols={['Date', 'Account', 'Currency', 'Income', 'Outcome']}>
+                    {Array(rowNum).fill(1).map((_a, i) => {
+                        return [
+                            <input key={`input_${i}_date`} type="date" className="bg-transparent" name="date" value={getRowData(i, "date")} onChange={({ target }) => setField(i, target.name, target.value)} />,
+                            clientSelect(i),
+                            currencySelect(i),
+                            <input key={`input_${i}_income`} type="number" className="bg-transparent" name="income" value={getRowData(i, "income")} onChange={({ target }) => setField(i, target.name, target.value)} />,
+                            <input key={`input_${i}_outcome`} type="number" className="bg-transparent" name="outcome" value={getRowData(i, "outcome")} onChange={({ target }) => setField(i, target.name, target.value)} />,
+                        ];
+                    }).flat()}
+                </Grid>
+                <div className="w-full py-5 grid justify-center"><ButtonLink type="green" onClick={save}>Save</ButtonLink></div>
+                <div>{message}</div>
             </div>
-            <Grid cols={['Date', 'Account', 'Currency', 'Income', 'Outcome']}>
-                {Array(rowNum).fill(1).map((_a, i) => {
-                    return [
-                        <input type="date" className="bg-transparent" name="date" value={getRowData(i, "date")} onChange={({ target }) => setField(i, target.name, target.value)} />,
-                        clientSelect(i),
-                        currencySelect(i),
-                        <input type="number" className="bg-transparent" name="income" value={getRowData(i, "income")} onChange={({ target }) => setField(i, target.name, target.value)} />,
-                        <input type="number" className="bg-transparent" name="outcome" value={getRowData(i, "outcome")} onChange={({ target }) => setField(i, target.name, target.value)} />,
-                    ];
-                }).flat()}                
-            </Grid>
-            <div className="w-full py-5 grid justify-center"><ButtonLink type="green" onClick={save}>Save</ButtonLink></div>
-            <div>{message}</div>            
+            <div className="flex flex-col text-black p-5 w-[200px]">
+                <div className="text-black">Same client</div>
+                <div>{bulkClientSelect()}</div>
+                <div className="text-black">Same currency</div>
+                <div>{bulkCurrencySelect()}</div>
+            </div>
         </div>
     );
 }
