@@ -1,4 +1,4 @@
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(66.98deg, #45a555 1.29%, #164E13 87.96%);
+  background: grey;
 }
