@@ -33,7 +33,7 @@ export default function MoneyPage(props: any) {
     return (
         <main className="flex min-h-screen flex-col p-24">
             <ModalProvider value={modalOpen}>
-                <Dialog setModalOpen={setModalOpen}><NewClient /></Dialog>
+                <Dialog setModalOpen={setModalOpen}><NewClient setModalOpen={setModalOpen} /></Dialog>
                 <div>
                     {!currencies.length && <div
                         className="bg-red-400 border w-[50%] self-center border-red-900 text-black px-4"

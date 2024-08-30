@@ -41,6 +41,14 @@ export const storageHook = (entityName: string) => {
         save(itemsFiltered);
     }
 
+    const update = (entity:Entity) => {
+        if(typeof sessionStorage === 'undefined') return;
+        const items = getAll();
+        const itemsFiltered = items.filter((item: Entity) => item.id !== entity.id);
+        itemsFiltered.push(entity);
+        save(itemsFiltered);
+    }
+
     const clearAll = () => {
         if(typeof sessionStorage === 'undefined') return;
         save([]);
@@ -49,6 +57,7 @@ export const storageHook = (entityName: string) => {
     return {
         create,
         save,
+        update,
         getAll,
         validateIfExists,
         remove,

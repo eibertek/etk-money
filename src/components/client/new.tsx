@@ -14,7 +14,7 @@ const blankClient = {
     address: '',
     type: "" as Client["type"],
 };
-export default function NewClient({ isShortForm=false }) {
+export default function NewClient({ isShortForm=false, setModalOpen }) {
     const [client, setClient] = useState(blankClient);
 
     const [message, setMessage] = useState('');
@@ -39,6 +39,7 @@ export default function NewClient({ isShortForm=false }) {
             storageHook('client').create({...client, id: hmacId.digest('hex')});        
             setMessage('The client was saved successfully');
             setClient(blankClient);
+            setModalOpen(false);
         }catch(e){
             if(e instanceof Error) {
                 setMessage(e.message);
