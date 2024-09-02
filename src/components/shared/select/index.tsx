@@ -2,7 +2,7 @@
 
 interface SelectProps {
     field: string;
-    value: string;
+    value?: string;
     onChange: (name: string, value: string)=>void;
     options: any[];
     optionLabel: (value:any)=>string;
