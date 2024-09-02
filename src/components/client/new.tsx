@@ -14,7 +14,8 @@ const blankClient = {
     address: '',
     type: "" as Client["type"],
 };
-export default function NewClient({ isShortForm=false, setModalOpen }) {
+
+export default function NewClient({ isShortForm=false, setModalOpen=(open: boolean)=>{} }) {
     const [client, setClient] = useState(blankClient);
 
     const [message, setMessage] = useState('');

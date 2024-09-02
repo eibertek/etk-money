@@ -8,7 +8,7 @@ const ENTITY_NAME = 'currencies';
 
 export default function ManageClient() {
     const [currencies, setCurrencies] = useState([]);
-    const [ newValues, setNewValues] = useState<{[index]: number}>({});
+    const [ newValues, setNewValues] = useState<{[index:number]: number}>({});
     useEffect(() => {
         setCurrencies(storageHook(ENTITY_NAME).getAll());
     }, []);
@@ -43,7 +43,7 @@ export default function ManageClient() {
                     <div>from</div>
                     <div>last Updated</div>
                 </div>
-                {currencies.map((currency: Currency, index) => {
+                {currencies.map((currency: Currency, index: number) => {
                     return (
                         <div key={`key_move_${currency.id}`} className='grid grid-cols-7'>
                             <div className='w-[15rem]'>{currency.name}</div>

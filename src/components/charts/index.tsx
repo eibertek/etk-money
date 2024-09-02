@@ -26,8 +26,8 @@ const constructLineData = (moves: Move[]) => {
     moves = moves.map((move: Move)=>{
       if(move.currency !== "u$s") {
         const exchange = currencies.find((currency: Currency)=>move.currency === currency.id);
-        const income = parseFloat((move?.income || 0) / exchange.value);
-        const outcome = parseFloat((move?.outcome || 0) / exchange.value);        
+        const income = parseFloat(((move?.income || 0) / exchange.value).toString());
+        const outcome = parseFloat(((move?.outcome || 0) / exchange.value).toString());        
         move = {...move, income, outcome};
       };
       return move;
@@ -104,8 +104,8 @@ const constructBarData = (moves: Move[]) => {
     moves = moves.map((move: Move)=>{
       if(move.currency !== "u$s") {
         const exchange = currencies.find((currency: Currency)=>move.currency === currency.id);
-        const income = parseFloat((move?.income || 0) / exchange.value);
-        const outcome = parseFloat((move?.outcome || 0) / exchange.value);        
+        const income = parseFloat(((move?.income || 0) / exchange.value).toString());
+        const outcome = parseFloat(((move?.outcome || 0) / exchange.value).toString());        
         move = {...move, income, outcome};
       };
       return move;
