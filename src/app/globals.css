@@ -16,11 +16,6 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(66.98deg, #FFFFFF 1.29%, #164E13 87.96%);
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;

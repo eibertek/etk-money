@@ -2,7 +2,6 @@ export const CLIENT_TYPES = ['Client', 'Person', 'Company', 'Service'] as const;
 
 export type Client = {
     id: string;
-    companyName?: string;
     name?: string;
     lastName?: string;
     address?: string;

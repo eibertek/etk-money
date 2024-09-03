@@ -16,7 +16,7 @@ interface IGridData {
 }
 const ENTITY_NAME = 'move';
 
-const BulkNew = ({setModalOpen}: IBulkNewProps) => {
+const BulkNew = ({setModalOpen=()=>{}}: IBulkNewProps) => {
     const [rowNum, setRowNum] = useState(1);
     const [clients, setClients] = useState([]);
     const [currencies, setCurrencies] = useState([]);
@@ -60,7 +60,7 @@ const BulkNew = ({setModalOpen}: IBulkNewProps) => {
 
     const clientSelect = (row: number = -1) => <select name={`client`} className="bg-transparent" value={getRowData(row, "client")} onChange={({ target }) => setField(row, target.name, target.value)} >
         <option key={`option_client_row_${row}_default`} value={""}> -- select a value -- </option>
-        {clients.map((client: Client, i: number) => <option key={`option_client_row_${row}_${i}`} value={client.id}>{client.companyName}</option>)}
+        {clients.map((client: Client, i: number) => <option key={`option_client_row_${row}_${i}`} value={client.id}>{client.name}</option>)}
     </select>;
 
     const currencySelect = (row: number = -1) => <select name={`currency`} className="bg-transparent" value={getRowData(row, "currency")} onChange={({ target }) => setField(row, target.name, target.value)} >
@@ -70,7 +70,7 @@ const BulkNew = ({setModalOpen}: IBulkNewProps) => {
 
     const bulkClientSelect = () => <select name={`client`} value={bulk.client} onChange={({ target }) => setAllFields(target.name, target.value)} >
         <option key={`option_bcl_row_default`} value={""}> -- select a value -- </option>
-        {clients.map((client: Client, i: number) => <option key={`option_client_row_${i}`} value={client.id}>{client.companyName}</option>)}
+        {clients.map((client: Client, i: number) => <option key={`option_client_row_${i}`} value={client.id}>{client.name}</option>)}
     </select>;
 
     const bulkCurrencySelect = () => <select name={`currency`} value={bulk.currency} onChange={({ target }) => setAllFields(target.name, target.value)} >
