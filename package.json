@@ -1,6 +1,6 @@
 {
   "name": "etk-money",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.2.0",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@nextui-org/modal": "^2.0.39",
     "chart.js": "^4.4.3",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.3.31",
     "next": "14.2.5",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
