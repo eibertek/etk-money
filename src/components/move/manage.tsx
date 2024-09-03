@@ -76,7 +76,7 @@ export default function ManageClient() {
                 {filteredMoves.map((move: Move) => {
                     const client: Client = clients.find((client: Client)=> client.id === move.client as unknown as string) as unknown as Client;
                     if(!client) return;
-                    const clientName = client.companyName || client.name + ' ' + client.lastName;
+                    const clientName = client.name + ' ' + client.lastName;
                     return (
                         <div key={`key_move_${move.id}`} className='grid grid-cols-6'>
                             <div className='w-[15rem]'>{clientName}</div>

@@ -56,7 +56,7 @@ export const Filters = (props: IFiltersProps) => {
                     onChange={onChange}
                     options={clients}
                     allowEmpty
-                    optionLabel={(client: Client) => client.companyName ? client.companyName : `${client.name} ${client.lastName}`} />
+                    optionLabel={(client: Client) => client.name ? client.name : `${client.name} ${client.lastName}`} />
             </div>}
             {date_range && <div className='mx-4'><Range field="date" onChange={onChange} type='date'  /></div>}
             {income_range && <div className='mx-4'><Range field="income" onChange={onChange} type='number' /></div>}

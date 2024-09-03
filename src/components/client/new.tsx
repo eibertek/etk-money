@@ -68,8 +68,8 @@ export default function NewClient({ setModalOpen = () => { } }) {
                             )}
                         </Field>
                         <Field name='name' validate={validate}>
-                            {({ field, form }: FieldProps) => (
-                                <FormControl isInvalid={form.errors.companyName===""}>
+                            {({ field }: FieldProps) => (
+                                <FormControl>
                                     <FormLabel>Name</FormLabel>
                                     <Input {...field} type='text' />
                                     <FormHelperText>Name of Account</FormHelperText>

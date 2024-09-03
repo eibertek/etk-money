@@ -115,8 +115,8 @@ export default function NewMove() {
                             )}
                         </Field>
                         <Field name='date' validate={validate}>
-                            {({ field, form }: FieldProps) => (
-                                <FormControl isInvalid={form.errors.companyName === ""}>
+                            {({ field }: FieldProps) => (
+                                <FormControl >
                                     <FormLabel>Date</FormLabel>
                                     <Input {...field} required type='date' />
                                     <FormHelperText>{"Move's Date"}</FormHelperText>
@@ -125,8 +125,8 @@ export default function NewMove() {
                             )}
                         </Field>
                         <Field name='description'>
-                            {({ field, form }: FieldProps) => (
-                                <FormControl isInvalid={form.errors.companyName === ""}>
+                            {({ field }: FieldProps) => (
+                                <FormControl >
                                     <FormLabel>Description</FormLabel>
                                     <Input {...field} type='text' />
                                     <FormHelperText>Description</FormHelperText>
@@ -135,8 +135,8 @@ export default function NewMove() {
                             )}
                         </Field>
                         <Field name='income'>
-                            {({ field, form }: FieldProps) => (
-                                <FormControl isInvalid={form.errors.companyName === ""}>
+                            {({ field }: FieldProps) => (
+                                <FormControl >
                                     <FormLabel>Income</FormLabel>
                                     <Input {...field} type='text' />
                                     <ErrorMessage {...field} render={(msg) => <div className='text-red-500'>{msg}</div>} />
@@ -144,8 +144,8 @@ export default function NewMove() {
                             )}
                         </Field>
                         <Field name='outcome'>
-                            {({ field, form }: FieldProps) => (
-                                <FormControl isInvalid={form.errors.companyName === ""}>
+                            {({ field }: FieldProps) => (
+                                <FormControl >
                                     <FormLabel>Outcome</FormLabel>
                                     <Input {...field} type='text' />
                                     <ErrorMessage {...field} render={(msg) => <div className='text-red-500'>{msg}</div>} />

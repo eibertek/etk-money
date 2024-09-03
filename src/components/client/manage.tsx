@@ -22,7 +22,6 @@ export default function ManageClient() {
                 {clients.map((client: Client) => {
                     return (
                         <div key="" className='grid grid-cols-3'>
-                            <div className='w-[10rem]'>{client.companyName}</div>
                             <div className='w-[22rem]'>{client.name} {client.lastName}</div>
                             <div className='flex'>
                                 <button className={btnClassName}>Modify</button>
