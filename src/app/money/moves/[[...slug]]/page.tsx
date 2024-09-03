@@ -1,5 +1,5 @@
 "use client";
-import NewMove from "@/components/move/new";
+import NewMove from "@/components/move/new_v2";
 import ManageMove from "@/components/move/manage";
 import BulkNew from "@/components/move/bulkNew";
 import Link from "next/link";
@@ -21,17 +21,11 @@ export default function MoneyPage(props: IMovePageProps) {
     useEffect(() => {
         setTitle(`${slug} Moves`);
     }, []);
-    
+
     return (
-        <section className="w-full text-center">
+        <section className="w-full text-center pt-8">
             <Button colorScheme="blue"><Link href={"/money/"}>{`<-`} Back to Dashboard</Link></Button>
-            <h2 className="text-5xl py-5 text-center">Money</h2>
             <div className="flex flex-row">
-                <div className="flex-col flex border p-5 border-spacing-4 border-blue-300">
-                    <h3 className="text-4xl pb-4">Money</h3>
-                    <div className={btnClassName}><Link href={"/money/moves/new"}>New</Link></div>
-                    <div className={btnClassName}><Link href={"/money/moves/manage"}>Manage</Link></div>
-                </div>
                 <div className="mx-4">
                     {isOpen.new && <NewMove />}
                     {isOpen.manage && <ManageMove />}
