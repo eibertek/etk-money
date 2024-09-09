@@ -1,4 +1,4 @@
-![Vercel](https://vercelbadge.vercel.app/api/eibertek/etk-money)
+![Vercel](https://vercelbadge.vercel.app/api/eibertek/etk-money) ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 
 ### Etek money management
 
