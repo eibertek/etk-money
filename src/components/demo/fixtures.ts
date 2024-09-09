@@ -9,7 +9,6 @@ const storageFixtures: IStorageData = {
     clients: [
         {
             "id": "e61b89df8a71fd63a3fe6498c42afcfcd28756e46e598c9b2eb907f722fbc416",
-            "companyName": "Light",
             "name": "",
             "lastName": "",
             "address": "",
@@ -17,7 +16,6 @@ const storageFixtures: IStorageData = {
         },
         {
             "id": "e3519c19040f1037847914baa8934c9520931153e2d20a9286d01b888c54d02d",
-            "companyName": "Gas",
             "name": "",
             "lastName": "",
             "address": "",
@@ -25,7 +23,6 @@ const storageFixtures: IStorageData = {
         },
         {
             "id": "bfd8487e97ffdb671b7f54c60ff9915a6e73c206c008908b0bbee64af8c43aaf",
-            "companyName": "Rent",
             "name": "",
             "lastName": "",
             "address": "",
@@ -33,7 +30,6 @@ const storageFixtures: IStorageData = {
         },
         {
             "id": "ed3f49cf46668ef8fba717cfae3fe7fb86c65ba3021e71024003bbccfd2983a2",
-            "companyName": "Visa",
             "name": "",
             "lastName": "",
             "address": "",
@@ -41,7 +37,6 @@ const storageFixtures: IStorageData = {
         },
         {
             "id": "29ce73737833f2ccf2a902657dd8a48f5d706edd822e67bb43bc0c4945528c8b",
-            "companyName": "Personal",
             "name": "",
             "lastName": "",
             "address": "",

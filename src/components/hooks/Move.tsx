@@ -3,7 +3,6 @@ import { Client, Currency, Move as MoveType } from "../../types/wallet";
 
 const defaultClient: Client = {
     id: '',
-    companyName: '',
     name: '',
     lastName: '',
     address: '',

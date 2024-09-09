@@ -10,22 +10,20 @@ interface IMovePageProps {
 };
 
 export default function MoneyPage(props: IMovePageProps) {
-    const slug = props.params?.slug || []; 
+    const slug = props.params?.slug || [];
     const isOpen = { new: slug.includes('new') || false, manage: slug.includes('manage') || false, bulk: slug.includes('bulk') || false };
 
     return (
-        <main className="flex min-h-screen flex-col items-center px-24">
-            <section className="w-full text-center">
-                <div><Link href={"/money/"}>{`<-`} Back to Dashboard</Link></div>
-                <h2 className="text-5xl py-5 text-center">Currencies</h2>
-                <div className="flex flex-row">
-                    <div className="mx-4">
-                        {isOpen.new && <NewMove />}
-                        {isOpen.manage && <ManageMove />}
-                    </div>
+        <section className="w-full text-center pt-8">
+            <div><Link href={"/money/"}>{`<-`} Back to Dashboard</Link></div>
+            <h2 className="text-5xl py-5 text-center">Currencies</h2>
+            <div className="flex flex-row">
+                <div className="mx-4">
+                    {isOpen.new && <NewMove />}
+                    {isOpen.manage && <ManageMove />}
                 </div>
-            </section>
-        </main>
+            </div>
+        </section>
     );
 }
 

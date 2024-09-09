@@ -31,7 +31,7 @@ export default function NewMove() {
     const [currencies, setCurrencies] = useState([]);
     const [isClientOpen, setClientOpen] = useState(false);
     const [client, setClient] = useState({
-        companyName: '',
+        name: '',
         type: '',
     });
 
@@ -81,21 +81,13 @@ export default function NewMove() {
     }
 
     const saveClient = () => {
-        const hmacId = crypto.createHmac('sha256',`${client.companyName}`);
+        const hmacId = crypto.createHmac('sha256',`${client.name}`);
         storageHook('client').create({...client, id: hmacId.digest('hex')});        
         setMessage('The client was saved successfully');
         const clients = storageHook('client').getAll();
         setClients(clients);
     }
 
-    const shortForm = () => (
-        <div className='text-white absolute right-[10%] top-[20%] justify-start w-[400px]'>
-            <Input field={'companyName'} value={client.companyName as unknown as string} onChange={onChangeClient} />
-            <Dropdown field='type' value={client.type} onChange={onChangeClient} options={CLIENT_TYPES.map((value)=>value) as unknown as any} optionLabel={(item)=>item} />            
-            <Button onClick={()=>saveClient()}>Save</Button>
-        </div>    
-    );
-    
     return (
         <div className='text-white flex flex-col justify-start'>
             {Object.keys(BLANK_MOVE).map((field) => {
@@ -109,7 +101,7 @@ export default function NewMove() {
                             value={move.client} 
                             onChange={onChange} 
                             options={clients} 
-                            optionLabel={(client: Client)=> client.companyName ? client.companyName : `${client.name} ${client.lastName}` } />
+                            optionLabel={(client: Client)=> client.name ? client.name : `${client.name} ${client.lastName}` } />
                         <Button onClick={()=>setClientOpen(!isClientOpen)}>{'New Client'}</Button>                        
                         </div>);
                     case 'currency':
@@ -127,7 +119,6 @@ export default function NewMove() {
             })}
             <Button onClick={()=>saveMove()}>Save</Button>
             {message && <div>{message}</div>}
-            <div>{isClientOpen && shortForm()}</div>
         </div>
     )
 }
