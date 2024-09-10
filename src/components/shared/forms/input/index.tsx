@@ -1,22 +1,23 @@
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { ErrorMessage, Field, FieldProps } from "formik";
-
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 interface InputProps {
     field: string;
-    value?: string | number;
+    value: string;
     type?: string;
-    onChange: (name: string, value: string)=>void;
+    error?: any;
+    validation?: ()=>{};
 };
 
-export const Component = ({ field, type='text', value, onChange}:InputProps) => {
+export const Component = ({ field, type='text', validation, error, ...props}:InputProps) => {
     return (
-        <Field name="client" validate={()=>{}}>
+        <Field name={field} validate={validation}>
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
                 <FormLabel>{field}</FormLabel>
                 <Input {...fieldProps} type={type} />
-                <ErrorMessage {...fieldProps} render={(msg) => <div className='text-red-500'>{msg}</div>} />
+                {error && error[field] && <Box color="tomato" >{error[field]}</Box> }
             </FormControl>
         )}
     </Field>

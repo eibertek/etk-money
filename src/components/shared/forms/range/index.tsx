@@ -1,10 +1,9 @@
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { ErrorMessage, Field, FieldProps } from "formik";
-
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 interface InputProps {
     field: string;
-    value?: string | number;
+    value: string;
     type?: string;
     onChange: (name: string, value: string)=>void;
 };
