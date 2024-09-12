@@ -17,6 +17,7 @@ interface InputProps {
 };
 
 export const Component = ({ field, error, options, values }:InputProps) => {
+    console.log(field, error, options, values);
     const validation = (value:string) => {};
     const items = options.map(({ id, label}, index) => <option key={`${field}_option_${id}_${index}`} value={id}>{label}</option>)
     return (
@@ -24,7 +25,7 @@ export const Component = ({ field, error, options, values }:InputProps) => {
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
                 <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>
-                <Select name={field} icon={<ArrowDownIcon />} placeholder="Select a client" value={values[field]} onChange={fieldProps.onChange}>{items}</Select>
+                <Select name={field} icon={<ArrowDownIcon />} placeholder="Select a client" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
                 {error && error[field] && <Box color="tomato" >{error[field]}</Box> }
             </FormControl>
         )}
