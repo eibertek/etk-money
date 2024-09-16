@@ -1,3 +1,5 @@
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { ErrorMessage, Field, FieldProps } from "formik";
 
 
 interface InputProps {
@@ -9,10 +11,15 @@ interface InputProps {
 
 export const Component = ({ field, type='text', value, onChange}:InputProps) => {
     return (
-        <div className='py-4 flex flex-col items-center text-start'>
-            <label className="w-[100px] capitalize" htmlFor={field}>{field}</label>
-            <input type={type} className="text-black" name={field} value={value} onChange={({ target }) => onChange(target.name, target.value)} />
-        </div>
+        <Field name="client" validate={()=>{}}>
+        {({ field: fieldProps }: FieldProps) => (
+            <FormControl>
+                <FormLabel>{field}</FormLabel>
+                <Input {...fieldProps} type={type} />
+                <ErrorMessage {...fieldProps} render={(msg) => <div className='text-red-500'>{msg}</div>} />
+            </FormControl>
+        )}
+    </Field>
     );
 };
 
