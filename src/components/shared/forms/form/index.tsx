@@ -12,7 +12,7 @@ interface IFormProps {
 
 export const FormPropsContext = createContext({ errors: {}, values: {} });
 
-const FormComponent = ({ initialValues, children, onSubmit, ...props }: IFormProps) => {
+const FormComponent = ({ initialValues, children, onSubmit }: IFormProps) => {
 
     return (
         <Box p={4}>

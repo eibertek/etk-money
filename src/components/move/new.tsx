@@ -85,7 +85,7 @@ export default function NewMove() {
                 }}
           >
                 <DateComponent  field='date' />
-                <Dropdown field='type' options={[{id:'I', label:'Income'}, {id:'O', label:'Outcome'}]} />
+                <Dropdown field='type' options={[{id:'I', label:'Income'}, {id:'O', label:'Outcome'}]} validationRules={{ [ALLOW_EMPTY]:false }} />
                 <Dropdown field='client' options={clientOptions} validationRules={{ [ALLOW_EMPTY]:false }} />
                 <Dropdown field='currency' options={currenciesOptions} validationRules={{ [ALLOW_EMPTY]:false }} />
                 <Input  field='description' />
