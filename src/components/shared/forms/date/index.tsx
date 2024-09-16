@@ -3,6 +3,8 @@ import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { ALLOW_EMPTY, FIELD_EMPTY } from '@/components/shared/constants';
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
+import { Context, useContext } from "react";
+import { FormPropsContext } from "../form";
 
 interface InputProps {
     field: string;
@@ -14,7 +16,8 @@ interface InputProps {
     };
 };
 
-export const Component = ({ field, type = 'Date', error, validationRules = { [ALLOW_EMPTY]: true } }: InputProps) => {
+export const Component = ({ field, type = 'Date', validationRules = { [ALLOW_EMPTY]: true } }: InputProps) => {
+    const {error, values}:any = useContext(FormPropsContext as Context<unknown>);
 
     const validation = (value: string) => {
         if (!validationRules[ALLOW_EMPTY] && (!value || value === "")) {

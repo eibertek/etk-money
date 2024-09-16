@@ -5,11 +5,9 @@ import Dropdown from '@/components/shared/forms/dropdown';
 import DateComponent from '@/components/shared/forms/date';
 import DateRange from '@/components/shared/forms/dateRange';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Form, Formik } from 'formik';
 
 import {
   ChakraProvider,
-  Button,
   Box,
 } from '@chakra-ui/react'
 import { ALLOW_EMPTY, MAX_LENGTH, MIN_LENGTH, MIN_MAX } from '@/components/shared/constants';
@@ -34,9 +32,9 @@ const StoryComponent = (storyProps: any) => {
         <Range  field='income' validationRules={storyProps.validationRules['income']} />
         <Range  field='outcome' validationRules={storyProps.validationRules['outcome']} />
         <DateComponent  field='date' validationRules={storyProps.validationRules['date']} />
+        <DateRange  field='date_range' />
         <Checkbox  field='see_all' validationRules={storyProps.validationRules['see_all']} />
-        <Dropdown field='client' options={clientOptions} />
-       
+        <Dropdown field='client' options={clientOptions} />        
       </FormComponent>
     </ChakraProvider>
   );
@@ -57,12 +55,12 @@ type Story = StoryObj<typeof meta>;
 export const InputStory: Story = {
   args: {
     initialValues: {
-      descrption: "",
+      description: "",
       income_from: 0,
       income_to: 0,
       date: new Date(),
-      dateRange_from: new Date("09/11/2024"),
-      dateRange_to: new Date("09/21/2024"),
+      date_range_from: new Date("09/11/2024"),
+      date_range_to: new Date("09/21/2024"),
     },
     validationRules: {
       description: {

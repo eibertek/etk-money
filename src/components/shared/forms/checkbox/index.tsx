@@ -1,7 +1,9 @@
 import { Field, FieldProps } from "formik";
 import { FormControl, FormLabel, Checkbox } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
-import { ALLOW_EMPTY, FIELD_EMPTY, FIELD_MAX_LENGTH, MAX_LENGTH } from '@/components/shared/constants';
+import { ALLOW_EMPTY, MAX_LENGTH } from '@/components/shared/constants';
+import { Context, useContext } from "react";
+import { FormPropsContext } from "../form";
 
 interface InputProps {
     field: string;
@@ -13,7 +15,8 @@ interface InputProps {
     };  
 };
 
-export const Component = ({ field, error }:InputProps) => {
+export const Component = ({ field }:InputProps) => {
+    const {error, values}:any = useContext(FormPropsContext as Context<unknown>);
     const validation = (value:string) => {};
     
     return (

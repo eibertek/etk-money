@@ -3,7 +3,9 @@ import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { ArrowDownIcon } from '@chakra-ui/icons';
 
 import { Box } from "@chakra-ui/react";
-import { ALLOW_EMPTY, FIELD_EMPTY, FIELD_MAX_LENGTH, MAX_LENGTH } from '@/components/shared/constants';
+import { ALLOW_EMPTY, MAX_LENGTH } from '@/components/shared/constants';
+import { Context, useContext } from "react";
+import { FormPropsContext } from "../form";
 
 interface InputProps {
     field: string;
@@ -16,8 +18,8 @@ interface InputProps {
     };  
 };
 
-export const Component = ({ field, error, options, values }:InputProps) => {
-    console.log(field, error, options, values);
+export const Component = ({ field,  options }:InputProps) => {
+    const {error, values}:any = useContext(FormPropsContext as Context<unknown>);
     const validation = (value:string) => {};
     const items = options.map(({ id, label}, index) => <option key={`${field}_option_${id}_${index}`} value={id}>{label}</option>)
     return (

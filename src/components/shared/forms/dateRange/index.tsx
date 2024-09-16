@@ -3,9 +3,10 @@ import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { ALLOW_EMPTY, FIELD_EMPTY } from '@/components/shared/constants';
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
-import { useState } from "react";
+import { Context, useContext, useState } from "react";
+import { FormPropsContext } from "../form";
 
-interface InputProps {
+interface IDateRangeProps {
     field: string;
     type?: string;
     error?: any;
@@ -15,16 +16,16 @@ interface InputProps {
     };
 };
 
-export const Component = ({ field, type = 'Date', error, validationRules = { [ALLOW_EMPTY]: true }, values }: InputProps) => {
+export const Component = ({ field }: IDateRangeProps) => {
+    const {error, values}:any = useContext(FormPropsContext as Context<unknown>);
     const fieldFrom = `${field}_from`;
     const fieldTo = `${field}_to`;
-    const valueFrom = values[fieldFrom] || new Date();
-    const valueTo = values[fieldFrom] || new Date();
+    const valueFrom = values && values[fieldFrom] || new Date();
+    const valueTo = values && values[fieldTo] || new Date();
     const [selectedDates, setSelectedDates] = useState<Date[]>([valueFrom, valueTo]);
 
-    const validation = (value: string) => {};
+    const validation = () => {};
     
-
     return (
         <Field name={field} validate={validation}>
             {({ field: fieldProps }: FieldProps) => (

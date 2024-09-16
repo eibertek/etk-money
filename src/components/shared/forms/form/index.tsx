@@ -1,6 +1,6 @@
-import { Children, cloneElement, ReactNode } from "react";
 import { Form, Formik } from 'formik';
 import { Box, Button } from "@chakra-ui/react";
+import { createContext } from "react";
 
 
 
@@ -10,28 +10,24 @@ interface IFormProps {
     onSubmit: (values: any) => void;
 }
 
+export const FormPropsContext = createContext({ errors: {}, values: {} });
+
 const FormComponent = ({ initialValues, children, onSubmit, ...props }: IFormProps) => {
+
     return (
         <Box p={4}>
             <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}
             >
-                {(props: { errors: any; values: any }) => {
-                    console.log(props);
-                    return (
+                {({ errors, values }: { errors: any; values: any }) => (
+                    <FormPropsContext.Provider value={{errors, values}}>
                         <Form>
-                            {Children.map(children, (child: ReactNode) => child && cloneElement(child, {
-                                injectedProp: {
-                                    error: props.errors,
-                                    values: props.values,
-                                }
-                            })
-                            )}
+                            {children}
                             <Button type="submit" mt={4}>Submit</Button>
                         </Form>
-                    )
-                }}
+                    </FormPropsContext.Provider>
+                )}
             </Formik>
         </Box>
     );

@@ -2,6 +2,8 @@ import { Field, FieldProps } from "formik";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { FIELD_MAX_LENGTH, FIELD_RANGE_ERROR, MAX_LENGTH, MIN_LENGTH, MIN_MAX } from '@/components/shared/constants';
+import { Context, useContext } from "react";
+import { FormPropsContext } from "../form";
 
 interface InputProps {
     field: string;
@@ -14,10 +16,12 @@ interface InputProps {
     };  
 };
 
-export const Component = ({ field, error, values, validationRules={[MIN_MAX]: true, [MAX_LENGTH]: 2000000} }: InputProps) => {
+export const Component = ({ field, validationRules={[MIN_MAX]: true, [MAX_LENGTH]: 2000000} }: InputProps) => {
+    const {error, values}:any = useContext(FormPropsContext as Context<unknown>);
     const fieldFrom = `${field}_from`;
     const fieldTo = `${field}_to`;
     const validation = (value:number, f: string) => {
+        if(!values) return;
         if(validationRules[MIN_MAX]) {
            if(values[fieldFrom] && values[fieldTo] && values[fieldFrom]>values[fieldTo]) {
                return FIELD_RANGE_ERROR;
