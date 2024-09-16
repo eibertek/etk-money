@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Client, Move } from '@/types/wallet';
 import { storageHook } from '../hooks/Storage';
 import { Filters } from '../shared/filters';
-
+//@TODO delete and start over
 const btnClassName = "block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800";
 
 const filterMoves = (moves: Move[], filters:{[name:string]:any}) => {
@@ -69,8 +69,8 @@ export default function ManageClient() {
                 <div className='grid grid-cols-6 mb-4 font-bold'>
                     <div className='w-[10rem]'>Client</div>
                     <div>Currency</div>
-                    <div>Income</div>
-                    <div>Outcome</div>
+                    <div>type</div>
+                    <div>amount</div>
                     <div>Description</div>
                 </div>
                 {filteredMoves.map((move: Move) => {
@@ -81,8 +81,8 @@ export default function ManageClient() {
                         <div key={`key_move_${move.id}`} className='grid grid-cols-6'>
                             <div className='w-[15rem]'>{clientName}</div>
                             <div className='w-[10rem]'>{move.currency as unknown as string}</div>
-                            <div>{move.income}</div>
-                            <div>{move.outcome}</div>
+                            <div>{move.type}</div>
+                            <div>{move.amount}</div>
                             <div>{move.description}</div>
                             <div>
                                 <button className={btnClassName} onClick={()=>removeMove(move)}>Remove</button>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Client, Currency, Move as MoveType } from "../../types/wallet";
+import { Client, Currency, Move, Move as MoveType } from "../../types/wallet";
 
 const defaultClient: Client = {
     id: '',
@@ -31,7 +31,8 @@ export const useMove = (moveProps: moveProps) => {
             date: new Date(),
             description: '',
             currency: defaultCurrency.id,
-            income: value,
+            amount: value,
+            type:'I',
         };
 
         incomes.push(move);
@@ -45,17 +46,18 @@ export const useMove = (moveProps: moveProps) => {
             date: new Date(),
             description: '',
             currency: defaultCurrency.id,
-            outcome: value,
+            amount: value,
+            type:'O',
         };
 
         outcomes.push(move);
         return move;
     };
 
-    function reducer(values: MoveType[], propName: 'income' | 'outcome'): number {
+    function reducer(values: MoveType[]): number {
         const valuesMap = values.map(
             (move: MoveType) => {
-                return move[propName] ?? 0;
+                return move.amount ?? 0;
             })
         const returns = valuesMap.reduce((acc, value) => {
             return acc += value;
@@ -66,8 +68,8 @@ export const useMove = (moveProps: moveProps) => {
 
 
     const getBalance = () => {
-        const incomesTotal: number = reducer(incomes, 'income');
-        const outcomesTotal: number = reducer(outcomes, 'outcome');
+        const incomesTotal: number = reducer(incomes);
+        const outcomesTotal: number = reducer(outcomes);
         const total = incomesTotal - outcomesTotal;
         return {
             total,

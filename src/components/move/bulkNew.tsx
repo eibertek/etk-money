@@ -81,14 +81,13 @@ const BulkNew = ({setModalOpen=()=>{}}: IBulkNewProps) => {
     const validations = (move: Move) => {
         if (move.client === "") return false;
         if (move.currency === "") return false;
-        if (move.income === 0 && move.outcome === 0) return false;
-        if (move.income && move.income > 0 && move.outcome && move.outcome > 0) return false;
+        if (move.amount === 0) return false;
         return true;
     }
 
     const saveMove = (move: Move) => {
         // create unique id hash
-        const hmacId = crypto.createHmac('sha256', `${move.client}_${move.currency}_${move.date}_${move.income}_${move.outcome}`);
+        const hmacId = crypto.createHmac('sha256', `${move.client}_${move.currency}_${move.date}_${move.amount}_${move.type}`);
         if (!validations(move)) {
             return 'There are errors in the form';
         }
@@ -110,10 +109,10 @@ const BulkNew = ({setModalOpen=()=>{}}: IBulkNewProps) => {
             const client = defaultClient ? defaultClient : gridData[c]['client'];
             const currency = defaultCurrency ? defaultCurrency : gridData[c]['currency'];
             const date = gridData[c]['date'];
-            const income = gridData[c]['income'];
-            const outcome = gridData[c]['outcome'];
+            const amount = gridData[c]['amount'];
+            const type = gridData[c]['type'];
             const move = {
-                client, currency, date, income, outcome
+                client, currency, date, amount, type
             } as Move;
             resultMessages.push(saveMove(move));
         }
@@ -129,14 +128,14 @@ const BulkNew = ({setModalOpen=()=>{}}: IBulkNewProps) => {
                     <div className="text-black">Select number for rows</div>
                     <select name="row_num" className="text-black self-center mx-5" value={rowNum} onChange={({ target }) => setRowNum(parseInt(target.value))}>{Array(12).fill(1).map((v, i) => <option key={`row_${i + 1}`} value={i + 1}>{i + 1}</option>)}</select>
                 </div>
-                <Grid cols={['Date', 'Account', 'Currency', 'Income', 'Outcome']}>
+                <Grid cols={['Date', 'Account', 'Currency', 'Income', 'Type']}>
                     {Array(rowNum).fill(1).map((_a, i) => {
                         return [
                             <input key={`input_${i}_date`} type="date" className="bg-transparent" name="date" value={getRowData(i, "date")} onChange={({ target }) => setField(i, target.name, target.value)} />,
                             clientSelect(i),
                             currencySelect(i),
-                            <input key={`input_${i}_income`} type="number" className="bg-transparent" name="income" value={getRowData(i, "income")} onChange={({ target }) => setField(i, target.name, target.value)} />,
-                            <input key={`input_${i}_outcome`} type="number" className="bg-transparent" name="outcome" value={getRowData(i, "outcome")} onChange={({ target }) => setField(i, target.name, target.value)} />,
+                            <input key={`input_${i}_amount`} type="number" className="bg-transparent" name="amount" value={getRowData(i, "amount")} onChange={({ target }) => setField(i, target.name, target.value)} />,
+                            <></>, /** add move type here */
                         ];
                     }).flat()}
                 </Grid>

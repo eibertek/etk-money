@@ -9,7 +9,7 @@ import { FormPropsContext } from "../form";
 
 interface InputProps {
     field: string;
-    options: {id:string, label:string}[];
+    options: {id:string, label?:string}[];
     error?: any;
     values?: any;
     validationRules?: {
@@ -27,7 +27,7 @@ export const Component = ({ field,  options }:InputProps) => {
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
                 <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>
-                <Select name={field} icon={<ArrowDownIcon />} placeholder="Select a client" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
+                <Select name={field} icon={<ArrowDownIcon />} placeholder="Select from the list" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
                 {error && error[field] && <Box color="tomato" >{error[field]}</Box> }
             </FormControl>
         )}

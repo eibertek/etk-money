@@ -7,7 +7,7 @@ import { createContext } from "react";
 interface IFormProps {
     children: string | JSX.Element | JSX.Element[];
     initialValues: any;
-    onSubmit: (values: any) => void;
+    onSubmit: (values: any, actions: any) => void;
 }
 
 export const FormPropsContext = createContext({ errors: {}, values: {} });

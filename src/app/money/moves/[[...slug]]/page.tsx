@@ -1,5 +1,5 @@
 "use client";
-import NewMove from "@/components/move/new_v2";
+import NewMove from "@/components/move/new";
 import ManageMove from "@/components/move/manage";
 import BulkNew from "@/components/move/bulkNew";
 import Link from "next/link";
