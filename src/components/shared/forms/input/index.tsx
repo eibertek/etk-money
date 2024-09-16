@@ -1,7 +1,7 @@
 import { Field, FieldProps } from "formik";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
-import { ALLOW_EMPTY, FIELD_EMPTY, FIELD_MAX_LENGTH, MAX_LENGTH } from '@/components/shared/constants';
+import { ALLOW_EMPTY, FIELD_EMPTY, FIELD_MAX_LENGTH, MAX_LENGTH, MIN_LENGTH } from '@/components/shared/constants';
 import { Context, useContext } from "react";
 import { FormPropsContext } from "../form";
 
@@ -11,8 +11,8 @@ interface InputProps {
     error?: any;
     values?: any;
     validationRules?: {
-        [ALLOW_EMPTY]: boolean,
-        [MAX_LENGTH]: number
+        [ALLOW_EMPTY]?: boolean,
+        [MAX_LENGTH]?: number,
     };  
 };
 

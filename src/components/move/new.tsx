@@ -7,6 +7,7 @@ import Input from '@/components/shared/forms/input';
 import DateComponent from '@/components/shared/forms/date';
 import Dropdown from '@/components/shared/forms/dropdown';
 import FormComponent from '@/components/shared/forms/form';
+import { ALLOW_EMPTY, MIN_LENGTH } from '../shared/constants';
 
 type MoveSimplified = Omit<Move, 'date' | 'client' | 'currency'>;
 
@@ -85,10 +86,10 @@ export default function NewMove() {
           >
                 <DateComponent  field='date' />
                 <Dropdown field='type' options={[{id:'I', label:'Income'}, {id:'O', label:'Outcome'}]} />
-                <Dropdown field='client' options={clientOptions} />
-                <Dropdown field='currency' options={currenciesOptions} />
+                <Dropdown field='client' options={clientOptions} validationRules={{ [ALLOW_EMPTY]:false }} />
+                <Dropdown field='currency' options={currenciesOptions} validationRules={{ [ALLOW_EMPTY]:false }} />
                 <Input  field='description' />
-                <Input  field='amount' />
+                <Input  field='amount' validationRules={{ [ALLOW_EMPTY]:false }} />
             </FormComponent>
         );
     };
