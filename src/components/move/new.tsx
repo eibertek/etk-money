@@ -65,12 +65,8 @@ export default function NewMove() {
         }
     }
 
-    const clientOptions = clients.map((itemValue: Client, index: number) => ({ id: itemValue.id, label: itemValue.name }));
-    const currenciesOptions = currencies.map((itemValue: Currency, index: number) => ({ id: itemValue.id, label: itemValue.id }));
-
-    const validate = (value: string) => {
-        if (value === "") return "The Field can't be Empty";
-    };
+    const clientOptions = clients.map((itemValue: Client) => ({ id: itemValue.id, label: itemValue.name }));
+    const currenciesOptions = currencies.map((itemValue: Currency) => ({ id: itemValue.id, label: itemValue.id }));
 
     const NewMoveForm = () => {
         return (
@@ -79,7 +75,6 @@ export default function NewMove() {
                 onSubmit={(values, actions) => {
                     setTimeout(() => {
                         saveMove(values as Move);
-                        console.log(values);
                         actions.setSubmitting(false)
                     }, 1000);
                 }}

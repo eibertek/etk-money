@@ -11,12 +11,13 @@ interface InputProps {
     type?: string;
     error?: any;
     values?: any;
+    noLabel: boolean;
     validationRules?: {
         [ALLOW_EMPTY]: boolean,
     };
 };
 
-export const Component = ({ field, type = 'Date', validationRules = { [ALLOW_EMPTY]: true } }: InputProps) => {
+export const Component = ({ field, noLabel=false,  validationRules = { [ALLOW_EMPTY]: true } }: InputProps) => {
     const {error, values}:any = useContext(FormPropsContext as Context<unknown>);
 
     const validation = (value: string) => {
@@ -28,8 +29,8 @@ export const Component = ({ field, type = 'Date', validationRules = { [ALLOW_EMP
     return (
         <Field name={field} validate={validation}>
             {({ field: fieldProps }: FieldProps) => (
-                <FormControl>
-                    <FormLabel style={{ textTransform: "capitalize" }}>{field}</FormLabel>
+                <FormControl key={`field_${field}`}>
+                    {!noLabel && <FormLabel style={{ textTransform: "capitalize" }}>{field}</FormLabel>}
                     <SingleDatepicker
                         name={field}
                         date={fieldProps.value}

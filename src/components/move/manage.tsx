@@ -7,23 +7,6 @@ const btnClassName = "block text-white bg-blue-700 hover:bg-blue-800 focus:ring-
 
 const filterMoves = (moves: Move[], filters:{[name:string]:any}) => {
     return moves.filter((item)=>{
-        if(filters.income_to && item?.income && item?.income >= filters.income_to) {
-            return false;
-        }
-        if(filters.income_from && item?.income && item?.income <= filters.income_from) {
-            return false;
-        }
-        if(filters.outcome_to && item?.outcome && item?.outcome >= filters.outcome_to) {
-            return false;
-        }
-        if(filters.outcome_from && item?.outcome && item?.outcome <= filters.outcome_from) {
-            return false;
-        }
-        if(filters.showOnly) {
-            if(filters.showOnly === 'incomes' && item?.outcome && item?.outcome > 0) return false;       
-            if(filters.showOnly === 'outcomes' && item?.income && item?.income > 0) return false;       
-        }
-
         return true;
     });
 }
@@ -65,7 +48,6 @@ export default function ManageClient() {
         <div className='text-white flex flex-col text-left w-full'>
             <div className='grid grid-cols-1 w-full'>
                 <div>{message}</div>
-                <Filters filters={filters} client showOnly currency date_range income_range outcome_range onChange={onChangeFilter}/>
                 <div className='grid grid-cols-6 mb-4 font-bold'>
                     <div className='w-[10rem]'>Client</div>
                     <div>Currency</div>

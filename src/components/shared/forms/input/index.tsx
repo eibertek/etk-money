@@ -8,14 +8,17 @@ import { FormPropsContext } from "../form";
 interface InputProps {
     field: string;
     type?: string;
+    noLabel: boolean;
     validationRules?: {
         [ALLOW_EMPTY]?: boolean,
         [MAX_LENGTH]?: number,
     };  
 };
 
-export const Component = ({ field, type='text', validationRules = { [ALLOW_EMPTY]:true, [MAX_LENGTH]:2000 } }:InputProps) => {
+export const Component = ({ field, type='text', noLabel=false, validationRules = { [ALLOW_EMPTY]:true, [MAX_LENGTH]:2000 } }:InputProps) => {
     const {errors, values}:any = useContext(FormPropsContext as Context<unknown>);
+    console.log(errors, values);
+
     const validation = (value:string) => {
         if(!validationRules[ALLOW_EMPTY] && (!value || value === "")) {
             return FIELD_EMPTY;
@@ -29,7 +32,7 @@ export const Component = ({ field, type='text', validationRules = { [ALLOW_EMPTY
         <Field name={field} validate={validation}>
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
-                <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>
+                {!noLabel && <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>}
                 <Input {...fieldProps} type={type} value={values[field]} />
                 {errors && errors[field] && <Box color="tomato" >{errors[field]}</Box> }
             </FormControl>
