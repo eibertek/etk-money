@@ -9,6 +9,9 @@ import DateComponent from '@/components/shared/forms/date';
 import FormComponent from '@/components/shared/forms/form';
 import { ModalContext } from "../shared/dialog/modalContext";
 import ButtonLink from "../shared/button/LinkButton";
+import { useFormikContext } from "formik";
+import { Button } from "@chakra-ui/react";
+import { ALLOW_EMPTY } from "../shared/constants";
 
 interface IBulkNewProps {
     setModalOpen?: any;
@@ -40,15 +43,6 @@ const BulkNew = ({ setModalOpen = () => { } }: IBulkNewProps) => {
         setCurrencies(currencies);
         setClients(clients);
     }, [modal]);
-
-    const setField = (row: number, name: string, value: any) => {
-        setGridData({
-            ...gridData, [row]: {
-                ...gridData[row],
-                [name]: value,
-            }
-        });
-    };
 
     const setAllFields = (name: string, value: any) => {
         setBulk({ ...bulk, [name]: value });
@@ -98,16 +92,15 @@ const BulkNew = ({ setModalOpen = () => { } }: IBulkNewProps) => {
         return `The Move was saved successfully`;
     }
 
-    const save = () => {
+    const save = (values: any) => {
         const { client: defaultClient, currency: defaultCurrency } = gridData[-1] || { client: "", currency: "" };
         const resultMessages = [];
         for (let c = 0; c < rowNum; c++) {
-            if (!gridData[c]) return;
-            const client = defaultClient ? defaultClient : gridData[c]['client'];
-            const currency = defaultCurrency ? defaultCurrency : gridData[c]['currency'];
-            const date = gridData[c]['date'];
-            const amount = gridData[c]['amount'];
-            const type = gridData[c]['type'];
+            const client = defaultClient ? defaultClient : values[`${c}_client`];
+            const currency = defaultCurrency ? defaultCurrency : values[`${c}_currency`];
+            const date = values[`${c}_date`];
+            const amount = values[`${c}_amount`];
+            const type = values[`${c}_type`];
             const move = {
                 client, currency, date, amount, type
             } as Move;
@@ -127,6 +120,9 @@ const BulkNew = ({ setModalOpen = () => { } }: IBulkNewProps) => {
                 </div>
                 <FormComponent
                     initialValues={{}}
+                    onSubmit={(values)=>{
+                        save(values);
+                    }}
                 >
                     <Grid cols={['Date', 'Account', 'Currency', 'Income', 'Type']}>
                         {Array(rowNum).fill(1).map((_a, i) => {
@@ -135,7 +131,7 @@ const BulkNew = ({ setModalOpen = () => { } }: IBulkNewProps) => {
                                 <Dropdown noLabel key={`field_${i}_client`} options={clientOptions} field={`${i}_client`} />,
                                 <Dropdown noLabel key={`field_${i}_currency`} options={currencyOptions} field={`${i}_currency`} />,
                                 <Input noLabel key={`field_${i}_amount`} type="number" field={`${i}_amount`} />,
-                                <Dropdown noLabel field={`${i}_type`} key={`field_${i}_type`}  options={[{ id: 'I', label: 'Income' }, { id: 'O', label: 'Outcome' }]} />,
+                                <Dropdown noLabel field={`${i}_type`} key={`field_${i}_type`}  options={[{ id: 'I', label: 'Income' }, { id: 'O', label: 'Outcome' }]} validationRules={{[ALLOW_EMPTY]: false}} />,
                             ];
                         }).flat()}
                     </Grid>
@@ -149,7 +145,6 @@ const BulkNew = ({ setModalOpen = () => { } }: IBulkNewProps) => {
                 <div>{bulkClientSelect()}</div>
                 <div className="text-black">Same currency</div>
                 <div>{bulkCurrencySelect()}</div>
-                <div className="w-full py-5 grid justify-center"><ButtonLink type="green" width="40px" onClick={save}>Save</ButtonLink></div>
             </div>
         </div>
     );

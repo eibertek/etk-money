@@ -16,7 +16,10 @@ export default function ManageClient() {
     const [clients, setClients] = useState([]);
     const [ filters, setFilters ] = useState({});
     const filteredMoves = filterMoves(moves, filters);
-
+    const colorLine: {[name:string]: string } = {
+        'I': 'bg-red-400',
+        'O': 'bg-green-400'
+    }
     useEffect(() => {
         const clients = storageHook('client').getAll();
         setClients(clients);
@@ -60,10 +63,10 @@ export default function ManageClient() {
                     if(!client) return;
                     const clientName = client.name + ' ' + client.lastName;
                     return (
-                        <div key={`key_move_${move.id}`} className='grid grid-cols-6'>
+                        <div key={`key_move_${move.id}`} className={`grid grid-cols-6 py-2 ${move.type && colorLine[move.type]}`}>
                             <div className='w-[15rem]'>{clientName}</div>
                             <div className='w-[10rem]'>{move.currency as unknown as string}</div>
-                            <div>{move.type}</div>
+                            <div>{move.type === 'I' ? 'Income' : 'Outcome'}</div>
                             <div>{move.amount}</div>
                             <div>{move.description}</div>
                             <div>

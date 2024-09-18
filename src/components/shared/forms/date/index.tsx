@@ -11,7 +11,7 @@ interface InputProps {
     type?: string;
     error?: any;
     values?: any;
-    noLabel: boolean;
+    noLabel?: boolean;
     validationRules?: {
         [ALLOW_EMPTY]: boolean,
     };
@@ -33,7 +33,7 @@ export const Component = ({ field, noLabel=false,  validationRules = { [ALLOW_EM
                     {!noLabel && <FormLabel style={{ textTransform: "capitalize" }}>{field}</FormLabel>}
                     <SingleDatepicker
                         name={field}
-                        date={fieldProps.value}
+                        date={fieldProps.value}                      
                         onDateChange={(value)=>{
                             fieldProps.onChange({target:{ type:'button', name:field, value}});
                         }}

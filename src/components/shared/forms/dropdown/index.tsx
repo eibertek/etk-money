@@ -10,7 +10,7 @@ import { FormPropsContext } from "../form";
 interface InputProps {
     field: string;
     options: {id:string, label?:string}[];
-    noLabel: boolean;
+    noLabel?: boolean;
     validationRules?: {
         [ALLOW_EMPTY]?: boolean,
         [MAX_LENGTH]?: number
@@ -21,7 +21,7 @@ export const Component = ({ field, options, noLabel=false, validationRules = { [
     const {errors, values}:any = useContext(FormPropsContext as Context<unknown>);
     const validation = (value:string) => {
         if(!validationRules[ALLOW_EMPTY] && (!value || value === "")) {
-            console.log("VACIO", errors)
+            console.log("VACIO", errors);
             return FIELD_EMPTY;
         };
     };
