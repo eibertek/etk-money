@@ -50,7 +50,7 @@ export default function NewMove() {
 
     const saveMove = (values: Move) => {
         // create unique id hash
-        const hmacId = crypto.createHmac('sha256', `${values.client}_${values.currency}_${values.date}_${values.income}_${values.outcome}`);
+        const hmacId = crypto.createHmac('sha256', `${values.client}_${values.currency}_${values.date}_${values.amount}_${values.type}`);
         if (!validations(values)) {
             setMessage('There are errors in the form');
             return;
