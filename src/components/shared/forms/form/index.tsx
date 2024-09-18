@@ -10,23 +10,25 @@ interface IFormProps {
     onSubmit?: (values: any, actions: any) => void;
 }
 
-export const FormPropsContext = createContext({ errors: {}, values: {} });
+export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any)=>{ console.log(values)} });
 
 const FormComponent = ({ initialValues, children, onSubmit }: IFormProps) => {
     return (
         <Box p={4}>
             <Formik
                 initialValues={initialValues}
-                onSubmit={onSubmit || ((values) => {console.log("ASAAA", values)})}
+                onSubmit={onSubmit || ((values) => {})}
             >
-            {({ errors, values }: { errors: any; values: any }) => (
-                <FormPropsContext.Provider value={{ errors, values }}>
-                    <Form>
-                        {children}
-                        {onSubmit && <Button type="submit" mt={4}>Submit</Button>}
-                    </Form>
-                </FormPropsContext.Provider>
-            )}
+            {(props) => {
+                return (
+                    <FormPropsContext.Provider value={props}>
+                        <Form>
+                            {children}
+                            {onSubmit && <Button type="submit" mt={4}>Submit</Button>}
+                        </Form>
+                    </FormPropsContext.Provider>
+                )
+            }}
         </Formik>
         </Box >
     );

@@ -4,7 +4,7 @@ import { ArrowDownIcon } from '@chakra-ui/icons';
 
 import { Box } from "@chakra-ui/react";
 import { ALLOW_EMPTY, FIELD_EMPTY, MAX_LENGTH } from '@/components/shared/constants';
-import { Context, useContext } from "react";
+import { Context, useContext, useEffect } from "react";
 import { FormPropsContext } from "../form";
 
 interface InputProps {
@@ -19,6 +19,7 @@ interface InputProps {
 
 export const Component = ({ field, options, noLabel=false, validationRules = { [ALLOW_EMPTY]:true} }:InputProps) => {
     const {errors, values}:any = useContext(FormPropsContext as Context<unknown>);
+   
     const validation = (value:string) => {
         if(!validationRules[ALLOW_EMPTY] && (!value || value === "")) {
             console.log("VACIO", errors);
