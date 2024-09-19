@@ -2,7 +2,7 @@
 import NewClient from "@/components/client/new";
 import ManageClient from "@/components/client/manage";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import TitleContext from "@/components/hooks/nameContext";
 import { Box, Button } from "@chakra-ui/react";
 
@@ -13,13 +13,13 @@ interface IClientPageProps {
 };
 
 export default function ClientPage(props: IClientPageProps) {
-    const slug = props.params?.slug || [];
+    const slug = useMemo(()=>props.params?.slug || [], [props]);
     const isOpen = { new: slug.includes('new') || false, manage: slug.includes('manage') || false };
     const { setTitle } = useContext(TitleContext);
 
     useEffect(() => {
         setTitle(`${slug} Account`);
-    }, []);
+    }, [setTitle, slug]);
     return (
         <section className="w-full text-center pt-8">
             <Button colorScheme="blue"><Link href={"/money/"}>{`<-`} Back to Dashboard</Link></Button>
