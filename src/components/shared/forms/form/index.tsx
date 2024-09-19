@@ -7,29 +7,30 @@ import { createContext } from "react";
 interface IFormProps {
     children: string | JSX.Element | JSX.Element[];
     initialValues: any;
-    onSubmit: (values: any) => void;
+    onSubmit?: (values: any, actions: any) => void;
 }
 
-export const FormPropsContext = createContext({ errors: {}, values: {} });
+export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any)=>{ console.log(values)} });
 
-const FormComponent = ({ initialValues, children, onSubmit, ...props }: IFormProps) => {
-
+const FormComponent = ({ initialValues, children, onSubmit }: IFormProps) => {
     return (
         <Box p={4}>
             <Formik
                 initialValues={initialValues}
-                onSubmit={onSubmit}
+                onSubmit={onSubmit || ((values) => {})}
             >
-                {({ errors, values }: { errors: any; values: any }) => (
-                    <FormPropsContext.Provider value={{errors, values}}>
+            {(props) => {
+                return (
+                    <FormPropsContext.Provider value={props}>
                         <Form>
                             {children}
-                            <Button type="submit" mt={4}>Submit</Button>
+                            {onSubmit && <Button type="submit" mt={4}>Submit</Button>}
                         </Form>
                     </FormPropsContext.Provider>
-                )}
-            </Formik>
-        </Box>
+                )
+            }}
+        </Formik>
+        </Box >
     );
 };
 

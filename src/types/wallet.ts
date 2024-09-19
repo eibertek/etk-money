@@ -1,5 +1,10 @@
 export const CLIENT_TYPES = ['Client', 'Person', 'Company', 'Service'] as const;
 
+export const MOVE_TYPES = {
+    'income': 'I',
+    'outcome': 'O'
+};
+
 export type Client = {
     id: string;
     name?: string;
@@ -27,8 +32,8 @@ export type Move = {
     client: Client["id"];    
     currency: Currency["id"];
     date?: Date;
-    income?: number;
-    outcome?: number;
+    amount?: number;
+    type?: 'I' | 'O';
     description?: string;
 }
 
@@ -36,7 +41,6 @@ export type Account = {
     id: string;
     currency: Currency;
     client: Client;
-    debit: number;
-    credit: number;
+    total: number;
     description: string;
 }

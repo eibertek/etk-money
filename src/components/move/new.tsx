@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Client, CLIENT_TYPES, Currency, Move } from '@/types/wallet';
+import { Client, Currency, Move } from '@/types/wallet';
 import crypto from "crypto";
 import { storageHook } from '@/components/hooks/Storage';
-import Dropdown from '@/components/shared/select';
-import Input from '@/components/shared/input';
-import Button from '@/components/shared/button';
+
+import Input from '@/components/shared/forms/input';
+import DateComponent from '@/components/shared/forms/date';
+import Dropdown from '@/components/shared/forms/dropdown';
+import FormComponent from '@/components/shared/forms/form';
+import { ALLOW_EMPTY, MIN_LENGTH } from '../shared/constants';
 
 type MoveSimplified = Omit<Move, 'date' | 'client' | 'currency'>;
 
@@ -20,20 +23,14 @@ export const BLANK_MOVE: MoveProps = {
     currency: '' as unknown as Currency['id'],
     date: new Date(),
     description: '',
-    income: 0,
-    outcome: 0,
+    amount: 0,
+    type: 'I',
 };
 const ENTITY_NAME = 'move';
 
 export default function NewMove() {
-    const [move, setMove] = useState(BLANK_MOVE);
     const [clients, setClients] = useState([]);
     const [currencies, setCurrencies] = useState([]);
-    const [isClientOpen, setClientOpen] = useState(false);
-    const [client, setClient] = useState({
-        name: '',
-        type: '',
-    });
 
     useEffect(() => {
         const clients = storageHook('client').getAll();
@@ -44,81 +41,57 @@ export default function NewMove() {
 
     const [message, setMessage] = useState('');
 
-    const onChangeClient = (field: string, value: string | number) => {
-        setClient({...client, [field]: value});
-        setMessage('');
-    };
-
-    const onChange = (field: string, value: string | number) => {
-        setMove({...move, [field]: value});
-        setMessage('');
-    };
-
-    const validations = () => {
-        if(move.client === "") return false;
-        if(move.currency === "") return false;
-        if(move.income === 0 &&  move.outcome === 0) return false;
-        if(move.income && move.income > 0 && move.outcome &&  move.outcome > 0) return false;
+    const validations = (values:Move) => {
+        if (values.client === "") return false;
+        if (values.currency === "") return false;
+        if (values.amount && values.amount === 0) return false;
         return true;
     }
 
-    const saveMove = () => {
+    const saveMove = (values: Move) => {
         // create unique id hash
-        const hmacId = crypto.createHmac('sha256',`${move.client}_${move.currency}_${move.date}_${move.income}_${move.outcome}`);
-        if(!validations()) {
+        const hmacId = crypto.createHmac('sha256', `${values.client}_${values.currency}_${values.date}_${values.amount}_${values.type}`);
+        if (!validations(values)) {
             setMessage('There are errors in the form');
             return;
-        }        
-        try{
-            storageHook(ENTITY_NAME).create({...move, id: hmacId.digest('hex')});        
+        }
+        try {
+            storageHook(ENTITY_NAME).create({ ...values, id: hmacId.digest('hex') });
             setMessage('The Move was saved successfully');
-            setMove(BLANK_MOVE);
-        }catch(error){
-            if(error instanceof Error) {
+        } catch (error) {
+            if (error instanceof Error) {
                 setMessage(error.message);
             }
         }
     }
 
-    const saveClient = () => {
-        const hmacId = crypto.createHmac('sha256',`${client.name}`);
-        storageHook('client').create({...client, id: hmacId.digest('hex')});        
-        setMessage('The client was saved successfully');
-        const clients = storageHook('client').getAll();
-        setClients(clients);
-    }
+    const clientOptions = clients.map((itemValue: Client) => ({ id: itemValue.id, label: itemValue.name }));
+    const currenciesOptions = currencies.map((itemValue: Currency) => ({ id: itemValue.id, label: itemValue.id }));
 
-    return (
-        <div className='text-white flex flex-col justify-start'>
-            {Object.keys(BLANK_MOVE).map((field) => {
-                switch (field) {
-                    case 'id':
-                        return;
-                    case 'client':
-                        return (<div className='flex flex-row'>
-                        <Dropdown 
-                            field='client'
-                            value={move.client} 
-                            onChange={onChange} 
-                            options={clients} 
-                            optionLabel={(client: Client)=> client.name ? client.name : `${client.name} ${client.lastName}` } />
-                        <Button onClick={()=>setClientOpen(!isClientOpen)}>{'New Client'}</Button>                        
-                        </div>);
-                    case 'currency':
-                        return <Dropdown field='currency' value={move.currency} onChange={onChange} options={currencies} optionLabel={(moveItem)=>moveItem.id} />;
-                    case 'date':
-                        return <Input type={'date'} field={field} value={move[field] as unknown as string} onChange={onChange} />;
-                    case 'description':
-                        return <Input field={field} value={move[field] as unknown as string} onChange={onChange} />;                        
-                    case 'income':
-                    case 'outcome':
-                        return <Input field={field} value={move[field] as unknown as string} onChange={onChange} type={'number'}/>;                        
-                    default:
-                        return <Input field={field} value={move[field as keyof MoveSimplified] as unknown as string} onChange={onChange} />;
-                }
-            })}
-            <Button onClick={()=>saveMove()}>Save</Button>
-            {message && <div>{message}</div>}
-        </div>
-    )
+    const NewMoveForm = () => {
+        return (
+            <FormComponent 
+            initialValues={BLANK_MOVE}
+                onSubmit={(values, actions) => {
+                    setTimeout(() => {
+                        saveMove(values as Move);
+                        actions.setSubmitting(false)
+                    }, 1000);
+                }}
+          >
+                <DateComponent  field='date' />
+                <Dropdown field='type' options={[{id:'I', label:'Income'}, {id:'O', label:'Outcome'}]} validationRules={{ [ALLOW_EMPTY]:false }} />
+                <Dropdown field='client' options={clientOptions} validationRules={{ [ALLOW_EMPTY]:false }} />
+                <Dropdown field='currency' options={currenciesOptions} validationRules={{ [ALLOW_EMPTY]:false }} />
+                <Input  field='description' />
+                <Input  field='amount' validationRules={{ [ALLOW_EMPTY]:false }} />
+            </FormComponent>
+        );
+    };
+
+
+    return (<>
+        {NewMoveForm()}
+        {message && <div>{message}</div>}
+    </>)
 }

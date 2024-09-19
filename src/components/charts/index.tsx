@@ -4,7 +4,7 @@
 import { Line, Bar } from 'react-chartjs-2';
 import { storageHook } from "../hooks/Storage";
 import 'chart.js/auto';
-import { Currency, Move } from '@/types/wallet';
+import { Currency, Move, MOVE_TYPES } from '@/types/wallet';
 
 const constructLineData = (moves: Move[]) => {
   const movesByMonth = {};
@@ -19,20 +19,20 @@ const constructLineData = (moves: Move[]) => {
     }
   });
 
-  const getFromMonth = (monthNumber: number, field: 'income' | 'outcome') => {
+  const getFromMonth = (monthNumber: number, field: 'I' | 'O') => {
     if (!(movesByMonth as any)[monthNumber-1]) return 0;
     let moves = (movesByMonth as any)[monthNumber-1];
     const currencies = storageHook('currencies').getAll();
-    moves = moves.map((move: Move)=>{
+    moves = moves.filter((mv:Move) => mv.type === field).map((move: Move)=>{      
       if(move.currency !== "u$s") {
         const exchange = currencies.find((currency: Currency)=>move.currency === currency.id);
-        const income = parseFloat(((move?.income || 0) / exchange.value).toString());
-        const outcome = parseFloat(((move?.outcome || 0) / exchange.value).toString());        
-        move = {...move, income, outcome};
+        const amount = parseFloat(((move?.amount || 0) / exchange.value).toString());
+        const type = move?.type;        
+        move = {...move, amount, type};
       };
       return move;
     });
-    return moves.reduce((prev: number, el: { income: any; outcome: any }) => prev += parseFloat(el[field] || "0"), 0);
+    return moves.reduce((prev: number, el: { amount: any; type: any }) => prev += parseFloat(el.amount || "0"), 0);
   };
 
   return {
@@ -41,18 +41,18 @@ const constructLineData = (moves: Move[]) => {
       {
         label: 'Income per month u$s',
         data: [
-          getFromMonth(1, 'income'),
-          getFromMonth(2, 'income'),
-          getFromMonth(3, 'income'),
-          getFromMonth(4, 'income'),
-          getFromMonth(5, 'income'),
-          getFromMonth(6, 'income'),
-          getFromMonth(7, 'income'),
-          getFromMonth(8, 'income'),
-          getFromMonth(9, 'income'),
-          getFromMonth(10, 'income'),
-          getFromMonth(11, 'income'),
-          getFromMonth(12, 'income'),
+          getFromMonth(1, 'I'),
+          getFromMonth(2, 'I'),
+          getFromMonth(3, 'I'),
+          getFromMonth(4, 'I'),
+          getFromMonth(5, 'I'),
+          getFromMonth(6, 'I'),
+          getFromMonth(7, 'I'),
+          getFromMonth(8, 'I'),
+          getFromMonth(9, 'I'),
+          getFromMonth(10, 'I'),
+          getFromMonth(11, 'I'),
+          getFromMonth(12, 'I'),
         ],
         fill:  'rgb(75, 192, 192)',
         backgroundColor: 'rgb(75, 192, 192)',
@@ -62,18 +62,18 @@ const constructLineData = (moves: Move[]) => {
       {
         label: 'Outcome per month u$s',
         data: [
-          getFromMonth(1, 'outcome'),
-          getFromMonth(2, 'outcome'),
-          getFromMonth(3, 'outcome'),
-          getFromMonth(4, 'outcome'),
-          getFromMonth(5, 'outcome'),
-          getFromMonth(6, 'outcome'),
-          getFromMonth(7, 'outcome'),
-          getFromMonth(8, 'outcome'),
-          getFromMonth(9, 'outcome'),
-          getFromMonth(10, 'outcome'),
-          getFromMonth(11, 'outcome'),
-          getFromMonth(12, 'outcome'),
+          getFromMonth(1, 'O'),
+          getFromMonth(2, 'O'),
+          getFromMonth(3, 'O'),
+          getFromMonth(4, 'O'),
+          getFromMonth(5, 'O'),
+          getFromMonth(6, 'O'),
+          getFromMonth(7, 'O'),
+          getFromMonth(8, 'O'),
+          getFromMonth(9, 'O'),
+          getFromMonth(10, 'O'),
+          getFromMonth(11, 'O'),
+          getFromMonth(12, 'O'),
         ],
         fill: 'rgb(192, 100, 100)',
         backgroundColor: 'rgb(192, 100, 100)',
@@ -97,21 +97,22 @@ const constructBarData = (moves: Move[]) => {
     }
   });
 
-  const getFromMonth = (monthNumber: number, field: 'income' | 'outcome') => {
+  const getFromMonth = (monthNumber: number, field: 'I' | 'O') => {
     if (!(movesByMonth as any)[monthNumber-1]) return 0;
     let moves = (movesByMonth as any)[monthNumber-1];
     const currencies = storageHook('currencies').getAll();
-    moves = moves.map((move: Move)=>{
+    moves = moves.filter((mv:Move) => mv.type === field).map((move: Move)=>{      
       if(move.currency !== "u$s") {
         const exchange = currencies.find((currency: Currency)=>move.currency === currency.id);
-        const income = parseFloat(((move?.income || 0) / exchange.value).toString());
-        const outcome = parseFloat(((move?.outcome || 0) / exchange.value).toString());        
-        move = {...move, income, outcome};
+        const amount = parseFloat(((move?.amount || 0) / exchange.value).toString());
+        const type = move?.type;        
+        move = {...move, amount, type};
       };
       return move;
     });
-    return moves.reduce((prev: number, el: { income: any; outcome: any }) => prev += parseFloat(el[field] || "0"), 0);
+    return moves.reduce((prev: number, el: { amount: any; type: any }) => prev += parseFloat(el.amount || "0"), 0);
   };
+
 
   return {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -120,18 +121,18 @@ const constructBarData = (moves: Move[]) => {
       {
         label: 'Income per month u$s',
         data: [
-          getFromMonth(1, 'income'),
-          getFromMonth(2, 'income'),
-          getFromMonth(3, 'income'),
-          getFromMonth(4, 'income'),
-          getFromMonth(5, 'income'),
-          getFromMonth(6, 'income'),
-          getFromMonth(7, 'income'),
-          getFromMonth(8, 'income'),
-          getFromMonth(9, 'income'),
-          getFromMonth(10, 'income'),
-          getFromMonth(11, 'income'),
-          getFromMonth(12, 'income'),
+          getFromMonth(1, 'I'),
+          getFromMonth(2, 'I'),
+          getFromMonth(3, 'I'),
+          getFromMonth(4, 'I'),
+          getFromMonth(5, 'I'),
+          getFromMonth(6, 'I'),
+          getFromMonth(7, 'I'),
+          getFromMonth(8, 'I'),
+          getFromMonth(9, 'I'),
+          getFromMonth(10, 'I'),
+          getFromMonth(11, 'I'),
+          getFromMonth(12, 'I'),
         ],
         fill:  'rgb(75, 192, 192)',
         backgroundColor: 'rgb(75, 192, 192)',
@@ -141,18 +142,18 @@ const constructBarData = (moves: Move[]) => {
       {
         label: 'Outcome per month u$s',
         data: [
-          getFromMonth(1, 'outcome'),
-          getFromMonth(2, 'outcome'),
-          getFromMonth(3, 'outcome'),
-          getFromMonth(4, 'outcome'),
-          getFromMonth(5, 'outcome'),
-          getFromMonth(6, 'outcome'),
-          getFromMonth(7, 'outcome'),
-          getFromMonth(8, 'outcome'),
-          getFromMonth(9, 'outcome'),
-          getFromMonth(10, 'outcome'),
-          getFromMonth(11, 'outcome'),
-          getFromMonth(12, 'outcome'),
+          getFromMonth(1, 'O'),
+          getFromMonth(2, 'O'),
+          getFromMonth(3, 'O'),
+          getFromMonth(4, 'O'),
+          getFromMonth(5, 'O'),
+          getFromMonth(6, 'O'),
+          getFromMonth(7, 'O'),
+          getFromMonth(8, 'O'),
+          getFromMonth(9, 'O'),
+          getFromMonth(10, 'O'),
+          getFromMonth(11, 'O'),
+          getFromMonth(12, 'O'),
         ],
         fill: 'rgb(192, 100, 100)',
         backgroundColor: 'rgb(192, 100, 100)',
@@ -162,18 +163,18 @@ const constructBarData = (moves: Move[]) => {
       {
         label: 'Totals per month',
         data: [
-          getFromMonth(1, 'income') - getFromMonth(1, 'outcome'),
-          getFromMonth(2, 'income') - getFromMonth(2, 'outcome'),
-          getFromMonth(3, 'income') - getFromMonth(3, 'outcome'),
-          getFromMonth(4, 'income') - getFromMonth(4, 'outcome'),
-          getFromMonth(5, 'income') - getFromMonth(5, 'outcome'),
-          getFromMonth(6, 'income') - getFromMonth(6, 'outcome'),
-          getFromMonth(7, 'income') - getFromMonth(7, 'outcome'),
-          getFromMonth(8, 'income') - getFromMonth(8, 'outcome'),
-          getFromMonth(9, 'income') - getFromMonth(9, 'outcome'),
-          getFromMonth(10, 'income') - getFromMonth(10, 'outcome'),
-          getFromMonth(11, 'income') - getFromMonth(11, 'outcome'),
-          getFromMonth(12, 'income') - getFromMonth(12, 'outcome'),
+          getFromMonth(1, 'I') - getFromMonth(1, 'O'),
+          getFromMonth(2, 'I') - getFromMonth(2, 'O'),
+          getFromMonth(3, 'I') - getFromMonth(3, 'O'),
+          getFromMonth(4, 'I') - getFromMonth(4, 'O'),
+          getFromMonth(5, 'I') - getFromMonth(5, 'O'),
+          getFromMonth(6, 'I') - getFromMonth(6, 'O'),
+          getFromMonth(7, 'I') - getFromMonth(7, 'O'),
+          getFromMonth(8, 'I') - getFromMonth(8, 'O'),
+          getFromMonth(9, 'I') - getFromMonth(9, 'O'),
+          getFromMonth(10, 'I') - getFromMonth(10, 'O'),
+          getFromMonth(11, 'I') - getFromMonth(11, 'O'),
+          getFromMonth(12, 'I') - getFromMonth(12, 'O'),
         ],
         fill: 'rgb(192, 100, 100)',
         backgroundColor: 'rgb(100, 192, 100)',

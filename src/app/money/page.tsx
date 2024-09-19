@@ -29,7 +29,7 @@ export default function MoneyPage(props: any) {
         setTitle("Dashboard");
         const currencies = storageHook('currencies').getAll();
         setCurrencies(currencies);
-    }, []);
+    }, [setTitle]);
 
     const buildCurrencies = () => {
         storageHook('currencies').clearAll();
