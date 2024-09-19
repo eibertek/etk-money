@@ -76,7 +76,7 @@ export default function ManageMoves({ setModalOpen = (value:boolean) => {}, filt
                     const clientName = client.name + ' ' + client.lastName;
                     return (
                         <div key={`key_move_${move.id}`} className={`grid grid-cols-7 py-2 ${move.type && colorLine[move.type]}`}>
-                            <div>{format(move.date, "dd/MM/yyyy")}</div>
+                            <div>{move.date && format(move.date, "dd/MM/yyyy")}</div>
                             <div className='w-[15rem]'>{clientName}</div>
                             <div className='w-[10rem]'>{move.currency as unknown as string}</div>
                             <div>{move.type === 'I' ? 'Income' : 'Outcome'}</div>
