@@ -32,8 +32,8 @@ export const Component = ({ field, type='text', noLabel=false, validationRules =
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
                 {!noLabel && <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>}
-                <Input {...fieldProps} type={type} value={values[field]} />
-                {errors && errors[field] && <Box color="tomato" >{errors[field]}</Box> }
+                <Input {...fieldProps} type={type} value={values && values[field]} />
+                {errors && errors[field] && <Box color="tomato" >{errors && errors[field]}</Box> }
             </FormControl>
         )}
     </Field>

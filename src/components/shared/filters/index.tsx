@@ -1,76 +1,50 @@
-import Dropdown from '@/components/shared/filters/dropdown';
-import Range from '@/components/shared/filters/range';
-import { useEffect, useState } from 'react';
-import { storageHook } from '@/components/hooks/Storage';
-import { Client } from '@/types/wallet';
-import { btnClassName } from '../button';
+import { createContext, useEffect, useState } from "react";
+import Range from '@/components/shared/forms/range';
+import Dropdown from '@/components/shared/forms/dropdown';
+import DateRange from '@/components/shared/forms/dateRange';
+import FormComponent from '@/components/shared/forms/form';
+import { storageHook } from "@/components/hooks/Storage";
+import { Client, Currency } from "@/types/wallet";
 
-interface IFilters {
-    date_range?: { from: number, to: number };
-    income_range?: { from: number, to: number };
-    outcome_range?: { from: number, to: number };
-    showOnly?: 'incomes' | 'outcomes';
-    client?: string;
-    currency?: string;
-    client_type?: string;
-};
 
-interface IFiltersProps {
-    client?: boolean;
-    date_range?: boolean;
-    income_range?: boolean;
-    outcome_range?: boolean;
-    showOnly?: boolean;
-    currency?: boolean;
-    onChange: (name:string, value:any) => void;
-    filters: {[name: string]: any}
-};
 
-export const Filters = (props: IFiltersProps) => {
-    const [clients, setClients] = useState([]);
-    const [currencies, setCurrencies] = useState([]);
+interface IFormProps {
+    initialValues?: any;
+    setModalOpen: any;
+    onSubmit?: (values: any, actions: any) => void;
+}
 
-    const {
-        client,
-        date_range,
-        income_range,
-        outcome_range,
-        showOnly,
-        onChange,
-        filters,
-    } = props;
+export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any) => { console.log(values) } });
+
+export const FilterPropsContext = createContext({});
+
+const FilterComponent = ({ initialValues={}, onSubmit }: IFormProps) => {
+    const [clients, setClients] = useState([] as Client[]);
+    const [currencies, setCurrencies] = useState([] as Currency[]);
 
     useEffect(() => {
-        const clients = storageHook('client').getAll();
-        const currencies = storageHook('currencies').getAll();
+        const clients: Client[] = storageHook('client').getAll();
+        const currencies: Currency[] = storageHook('currencies').getAll();
         setCurrencies(currencies);
         setClients(clients);
     }, []);
-    
+
+    const clientOptions = clients.map(({ id, name }) => ({ id, label: name }));
+    const currencyOptions = currencies.map(({ id }) => ({ id, label: id }));
+    const typeOptions = [{ id: 'I', label: 'Income' }, { id: 'O', label: 'Outcome' }];
+
     return (
-        <div className='w-full flex flex-row'>
-            {client && <div className='mx-4'>
-                <Dropdown
-                    field='client'
-                    value={filters.client}
-                    onChange={onChange}
-                    options={clients}
-                    allowEmpty
-                    optionLabel={(client: Client) => client.name ? client.name : `${client.name} ${client.lastName}`} />
-            </div>}
-            {date_range && <div className='mx-4'><Range field="date" onChange={onChange} type='date'  /></div>}
-            {income_range && <div className='mx-4'><Range field="income" onChange={onChange} type='number' /></div>}
-            {outcome_range && <div className='mx-4'><Range field="outcome" onChange={onChange} type='number' /></div>}
-            {showOnly && <div className='mx-4'>
-                <Dropdown
-                    field='showOnly'
-                    value={filters.showOnly}
-                    onChange={onChange}
-                    options={['incomes', 'outcomes']}
-                    allowEmpty
-                    optionLabel={(name:string) => name} />                
-                </div>}
-            <button className={`${btnClassName} mx-4 flex self-center`}>Clear all</button>
-        </div>
+        <FormComponent
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+        >
+            <DateRange key={`field_filter_date`} field={`date`} />
+            <Dropdown key={`field_filter_client`} options={clientOptions} field={`client`} />
+            <Dropdown key={`field_filter_currency`} options={currencyOptions} field={`currency`} />
+            <Range key={`field_filter_amount`} field={`amount`} />
+            <Dropdown field={`type`} key={`field_filter_type`} options={typeOptions} />
+        </FormComponent>
     );
-}
+};
+
+export default FilterComponent;

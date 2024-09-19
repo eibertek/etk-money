@@ -25,7 +25,7 @@ export const Component = ({ field }: IDateRangeProps) => {
     const [selectedDates, setSelectedDates] = useState<Date[]>([valueFrom, valueTo]);
 
     const validation = () => {};
-    
+
     return (
         <Field name={field} validate={validation}>
             {({ field: fieldProps }: FieldProps) => (
@@ -34,10 +34,10 @@ export const Component = ({ field }: IDateRangeProps) => {
                     <RangeDatepicker
                         closeOnSelect={true}
                         selectedDates={selectedDates}
-                        onDateChange={([dateFrom, dateTo])=>{
-                            setSelectedDates([dateFrom, dateTo]);
-                            fieldProps.onChange({target:{ type:'button', name:fieldFrom, value: dateFrom}});
-                            fieldProps.onChange({target:{ type:'button', name:fieldTo, value: dateTo}});
+                        onDateChange={async (dates)=>{
+                            setSelectedDates(dates);
+                            fieldProps.onChange({target:{ type:'button', name:fieldFrom, value: dates[0]}});
+                            fieldProps.onChange({target:{ type:'button', name:fieldTo, value: dates[1]}});
                         }}
                     />
                     {error && error[field] && <Box color="tomato" >{error[field]}</Box>}
