@@ -1,19 +1,22 @@
 "use client";
 import { useRouter } from 'next/navigation'
 import { useState } from "react";
+import FormComponent from '@/components/shared/forms/form';
+import Input from '@/components/shared/forms/input';
+import { Box, Flex } from '@chakra-ui/react';
 
-export const Login = ({envs}:{envs: {mainUser: string, mainPassword:string}}) => {
-    const [ formData, setFormData ]:[{[name:string]:string}, (oldValue:any)=>void] = useState({});
-    const [ error, setError ] = useState("");
+export const Login = ({ envs }: { envs: { mainUser: string, mainPassword: string } }) => {
+    const [formData, setFormData]: [{ [name: string]: string }, (oldValue: any) => void] = useState({});
+    const [error, setError] = useState("");
     const router = useRouter();
     const setInput = (evt: { target: { name: any; value: any; }; }) => {
         setFormData({ ...formData, [evt.target.name]: evt.target.value });
     };
     const loginAction = () => {
-        if(formData["username"]===envs.mainUser && formData["password"]===envs.mainPassword){
+        if (formData["username"] === envs.mainUser && formData["password"] === envs.mainPassword) {
             setError("");
-            router.push(`/logged-in?userKey=${btoa(formData.username)}`);            
-        }else{
+            router.push(`/logged-in?userKey=${btoa(formData.username)}`);
+        } else {
             setError("NO");
         }
     };

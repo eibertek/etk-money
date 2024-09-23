@@ -9,6 +9,7 @@ import { FormPropsContext } from "../form";
 interface IDateRangeProps {
     field: string;
     type?: string;
+    key?: string;
     error?: any;
     values?: any;
     validationRules?: {
@@ -34,7 +35,7 @@ export const Component = ({ field }: IDateRangeProps) => {
                     <RangeDatepicker
                         closeOnSelect={true}
                         selectedDates={selectedDates}
-                        onDateChange={async (dates)=>{
+                        onDateChange={async (dates: any[])=>{
                             setSelectedDates(dates);
                             fieldProps.onChange({target:{ type:'button', name:fieldFrom, value: dates[0]}});
                             fieldProps.onChange({target:{ type:'button', name:fieldTo, value: dates[1]}});

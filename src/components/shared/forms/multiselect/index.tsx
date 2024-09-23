@@ -1,6 +1,5 @@
 import { Field, FieldProps } from "formik";
 import { FormControl, FormLabel, Select } from "@chakra-ui/react";
-import { ArrowDownIcon } from '@chakra-ui/icons';
 
 import { Box } from "@chakra-ui/react";
 import { ALLOW_EMPTY, FIELD_EMPTY, MAX_LENGTH } from '@/components/shared/constants';
@@ -31,7 +30,7 @@ export const Component = ({ field, options, noLabel=false, validationRules = { [
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
                 {!noLabel && <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>}
-                <Select name={field} icon={<ArrowDownIcon />} placeholder="Select from the list" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
+                <Select multiple name={field} placeholder="Select from the list" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
                 {errors && errors[field] && <Box color="tomato" >{errors[field]}</Box> }
             </FormControl>
         )}
