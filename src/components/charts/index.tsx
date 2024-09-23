@@ -1,8 +1,8 @@
 // page.js this is the entry point of application
 
 "use client";
-import { Line, Bar } from 'react-chartjs-2';
 import { storageHook } from "../hooks/Storage";
+import { Line, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { Currency, Move, MOVE_TYPES } from '@/types/wallet';
 

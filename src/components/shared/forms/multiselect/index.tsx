@@ -31,7 +31,7 @@ export const Component = ({ field, options, noLabel=false, validationRules = { [
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
                 {!noLabel && <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>}
-                <Select multiple name={field} icon={<ArrowDownIcon />} placeholder="Select from the list" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
+                <Select name={field} icon={<ArrowDownIcon />} placeholder="Select from the list" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
                 {errors && errors[field] && <Box color="tomato" >{errors[field]}</Box> }
             </FormControl>
         )}
