@@ -19,7 +19,6 @@
     "@nextui-org/modal": "^2.0.39",
     "ast-types": "^0.16.1",
     "chakra-dayzed-datepicker": "^0.3.0",
-    "chakra-multiselect": "^0.4.13",
     "chart.js": "^4.4.3",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
