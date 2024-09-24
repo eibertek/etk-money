@@ -16,7 +16,7 @@ const ChartsComponent = () => {
     const charts = storageHook('chart').getAll() || [];
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const saveChart = (values) => {
+    const saveChart = (values: { [name: string]: any; id: string; }) => {
         storageHook('chart').create(values);
         onClose();
     };
@@ -34,8 +34,8 @@ const ChartsComponent = () => {
                 </ModalContent>
             </Modal>
             <Flex direction={"row"} margin={4} gap={4}>
-                {charts.map((item) => (
-                    <Card padding={2}>
+                {charts.map((item:any, index:number) => (
+                    <Card key={`key_chart_${index}`} padding={2}>
                         <SkeletonCircle margin={2}></SkeletonCircle>
                         <SkeletonText width={'200px'} noOfLines={4} spacing={4} skeletonHeight='2'></SkeletonText>
                     </Card>

@@ -39,7 +39,7 @@ const filterMoves = (moves: Move[], filters: { [name: string]: any }) => {
     });
 }
 
-const chartData = (chartType, data) => {
+const chartData = (chartType: string, data: Move[]) => {
 
     return {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -61,7 +61,7 @@ export default function Chart({ setModalOpen = (value: boolean) => { }, filters 
         setMoves(storageHook('move').getAll());
     }, [modal]);
 
-    const ChartSelected = (props) => {
+    const ChartSelected = (props:any) => {
         switch (filters.chart) {
             case 'Line':
                 return <Line {...props} />;
