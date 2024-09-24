@@ -1,40 +1,83 @@
 import { Field, FieldProps } from "formik";
-import { FormControl, FormLabel, Select } from "@chakra-ui/react";
-
+import { Button, ButtonGroup, Checkbox, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+} from '@chakra-ui/react';
 import { Box } from "@chakra-ui/react";
 import { ALLOW_EMPTY, FIELD_EMPTY, MAX_LENGTH } from '@/components/shared/constants';
-import { Context, useContext, useEffect } from "react";
+import { Context, useContext, useEffect, useState } from "react";
 import { FormPropsContext } from "../form";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 interface InputProps {
     field: string;
-    options: {id:string, label?:string}[];
+    options: { id: string, label?: string }[];
     noLabel?: boolean;
     validationRules?: {
         [ALLOW_EMPTY]?: boolean,
         [MAX_LENGTH]?: number
-    };  
+    };
 };
 
-export const Component = ({ field, options, noLabel=false, validationRules = { [ALLOW_EMPTY]:true} }:InputProps) => {
-    const {errors, values}:any = useContext(FormPropsContext as Context<unknown>);
-   
-    const validation = (value:string) => {
-        if(!validationRules[ALLOW_EMPTY] && (!value || value === "")) {
-            return FIELD_EMPTY;
-        };
+type TargetProps = {
+    target: {
+        name: string;
+        checked: boolean;    
+    }
+};
+
+export const MultselectComponent = ({ options, save}: {options:any[], save: (values:string[])=>void}) => {
+    const optionsObject = options.reduce((acc, item) => {
+        acc[item.id]=false; 
+        return acc;
+    }, {});
+    const [values, setValues] = useState(optionsObject);    
+    const valuesOn = Object.entries(values).filter(it => it[1]);
+    const buttonText = valuesOn.length > 0 ? valuesOn.map(it=>{
+        return options.filter(it2=>it[0]===it2.id)[0].label;
+    }).join(",") : "Select options"; 
+    const onChange = ({ target: {name, checked}}:TargetProps) => {        
+        const newValues = {...values, [name]: checked};
+        setValues(newValues);
     };
-    const items = options.map(({ id, label}, index) => <option key={`${field}_option_${id}_${index}`} value={id}>{label}</option>)
+
+    const saveToParent = () => {
+        save(Object.entries(values).filter(it => it[1]).map(it=>it[0]));
+    };
+
     return (
-        <Field name={field} validate={validation}>
-        {({ field: fieldProps }: FieldProps) => (
-            <FormControl>
-                {!noLabel && <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>}
-                <Select multiple name={field} placeholder="Select from the list" value={values && values[field]} onChange={fieldProps.onChange}>{items}</Select>
-                {errors && errors[field] && <Box color="tomato" >{errors[field]}</Box> }
-            </FormControl>
-        )}
-    </Field>
+        <Menu closeOnSelect={false}  onClose={saveToParent}>
+            {({ isOpen }) => (
+                <>
+                    <MenuButton>
+                        <Button width={"100%"} rightIcon={<ChevronDownIcon />}>{isOpen ? 'Select Items' : `${buttonText}`}</Button>
+                    </MenuButton>
+                    <MenuList maxHeight="15rem" overflowY="scroll">
+                        {options.map((item, index) => (
+                            <MenuItem key={`item_${item}_${index}`}><Checkbox name={item.id} checked={values[item.id]} onChange={onChange} >{item.label}</Checkbox></MenuItem>
+                        ))}
+                    </MenuList>
+                </>
+            )}
+        </Menu>
+    );
+}
+export const Component = ({ field, options, noLabel = false }: InputProps) => {
+    const { errors, values }: any = useContext(FormPropsContext as Context<unknown>);
+    
+    return (
+        <Field name={field}>
+            {({ form }: FieldProps) => (
+                <FormControl>
+                    {!noLabel && <FormLabel style={{ textTransform: "capitalize" }}>{field}</FormLabel>}
+                    <MultselectComponent options={options} save={(values)=>{form.setFieldValue(field, values)}} />
+                    {errors && errors[field] && <Box color="tomato" >{errors[field]}</Box>}
+                </FormControl>
+            )}
+        </Field>
     );
 };
 

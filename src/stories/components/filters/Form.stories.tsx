@@ -41,7 +41,7 @@ const StoryComponent = (storyProps: any) => {
 }
 
 const meta = {
-  title: 'Components/Filters/Input',
+  title: 'Components/Form',
   component: StoryComponent,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
@@ -52,7 +52,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const InputStory: Story = {
+export const FormStory: Story = {
   args: {
     initialValues: {
       description: "",
