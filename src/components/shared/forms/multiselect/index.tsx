@@ -1,5 +1,5 @@
 import { Field, FieldProps } from "formik";
-import { Button, ButtonGroup, Checkbox, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import { Checkbox, Flex, FormControl, FormLabel } from "@chakra-ui/react";
 import {
     Menu,
     MenuButton,
@@ -10,7 +10,7 @@ import { Box } from "@chakra-ui/react";
 import { ALLOW_EMPTY, FIELD_EMPTY, MAX_LENGTH } from '@/components/shared/constants';
 import { Context, useContext, useEffect, useState } from "react";
 import { FormPropsContext } from "../form";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 interface InputProps {
     field: string;
@@ -53,7 +53,7 @@ export const MultselectComponent = ({ options, save}: {options:any[], save: (val
             {({ isOpen }) => (
                 <>
                     <MenuButton>
-                        <Button width={"100%"} rightIcon={<ChevronDownIcon />}>{isOpen ? 'Select Items' : `${buttonText}`}</Button>
+                        <Flex><Box width={"300px"} textAlign={"justify"}>{isOpen ? "Select Items" : `${buttonText}`}</Box> {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</Flex>
                     </MenuButton>
                     <MenuList maxHeight="15rem" overflowY="scroll">
                         {options.map((item, index) => (

@@ -1,23 +1,19 @@
 import { createContext, useEffect, useState } from "react";
 import Range from '@/components/shared/forms/range';
+import Input from '@/components/shared/forms/input';
 import Dropdown from '@/components/shared/forms/dropdown';
 import MultiSelect from '@/components/shared/forms/multiselect';
 import DateRange from '@/components/shared/forms/dateRange';
 import FormComponent from '@/components/shared/forms/form';
 import { storageHook } from "@/components/hooks/Storage";
 import { Client, Currency } from "@/types/wallet";
-
-
+import { ALLOW_EMPTY } from "@/components/shared/constants";
 
 interface IFormProps {
     initialValues?: any;
     setModalOpen: any;
     onSubmit?: (values: any, actions: any) => void;
 }
-
-export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any) => { console.log(values) } });
-
-export const FilterPropsContext = createContext({});
 
 const FilterComponent = ({ initialValues = {}, onSubmit }: IFormProps) => {
     const [clients, setClients] = useState([] as Client[]);
@@ -45,7 +41,8 @@ const FilterComponent = ({ initialValues = {}, onSubmit }: IFormProps) => {
             initialValues={initialValues}
             onSubmit={onSubmit}
         >
-            <Dropdown key={`field_filter_chart`} options={chartOptions} field={`chart`} />
+            <Input field="title" placeholder="Add title to chart" validationRules={{[ALLOW_EMPTY]: false}} />
+            <Dropdown key={`field_filter_chart`} options={chartOptions} field={`chart`} validationRules={{[ALLOW_EMPTY]: false}} />
             <DateRange key={`field_filter_date`} field={`date`} />
             <MultiSelect key={`field_filter_client`} options={clientOptions} field={`client`} />
             <Dropdown key={`field_filter_currency`} options={currencyOptions} field={`currency`} />
