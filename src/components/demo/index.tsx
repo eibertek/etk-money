@@ -32,7 +32,7 @@ export const Demo = () => {
     };
 
     return (
-        <div className="w-[30%] text-center flex-1 flex flex-col items-center m-12 pt-12">
+        <div className="text-center flex-1 flex flex-col items-center m-6 md:m-12">
             <div>This is the Demo button, you can create the needful data to start seeing charts and use have a quick pick of all the app</div>
             <div>
                 <div><button className={btnClassName} onClick={()=>buildCurrencies()}>Create Currencies</button></div>

@@ -9,6 +9,7 @@ import { FormPropsContext } from "../form";
 
 interface InputProps {
     field: string;
+    key?: string;
     options: {id:string, label?:string}[];
     noLabel?: boolean;
     validationRules?: {

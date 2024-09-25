@@ -9,13 +9,14 @@ interface InputProps {
     field: string;
     type?: string;
     noLabel?: boolean;
+    placeholder?: string;
     validationRules?: {
         [ALLOW_EMPTY]?: boolean,
         [MAX_LENGTH]?: number,
     };  
 };
 
-export const Component = ({ field, type='text', noLabel=false, validationRules = { [ALLOW_EMPTY]:true, [MAX_LENGTH]:2000 } }:InputProps) => {
+export const Component = ({ field, type='text', noLabel=false, validationRules = { [ALLOW_EMPTY]:true, [MAX_LENGTH]:2000 }, placeholder }:InputProps) => {
     const {errors, values}:any = useContext(FormPropsContext as Context<unknown>);
 
     const validation = (value:string) => {
@@ -32,8 +33,8 @@ export const Component = ({ field, type='text', noLabel=false, validationRules =
         {({ field: fieldProps }: FieldProps) => (
             <FormControl>
                 {!noLabel && <FormLabel style={{ textTransform: "capitalize"}}>{field}</FormLabel>}
-                <Input {...fieldProps} type={type} value={values[field]} />
-                {errors && errors[field] && <Box color="tomato" >{errors[field]}</Box> }
+                <Input {...fieldProps} type={type} value={values && values[field]} placeholder={placeholder} />
+                {errors && errors[field] && <Box color="tomato" >{errors && errors[field]}</Box> }
             </FormControl>
         )}
     </Field>

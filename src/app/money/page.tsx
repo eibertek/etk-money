@@ -1,6 +1,5 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import Demo from "@/components/demo";
 import Chart from "@/components/charts";
 import { storageHook } from "@/components/hooks/Storage";
 import storageFixtures from "@/components/demo/fixtures";
@@ -20,7 +19,6 @@ import TitleContext from "@/components/hooks/nameContext";
 
 export default function MoneyPage(props: any) {
     const isSavings: boolean = process.env.FEATURE_SAVINGS === 'true' || false;
-    const isDemo: boolean = process.env.DEMO === 'true' || false;
     const [currencies, setCurrencies] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { setTitle } = useContext(TitleContext);
@@ -53,8 +51,8 @@ export default function MoneyPage(props: any) {
                 </ModalContent>
             </Modal>
             <section className="w-full text-center pt-8">
-                <section className="w-full text-center">
-                    {<Chart />}
+                <section className="hidden md:block w-full text-center">
+                   <Chart />
                 </section>
                 <div className="flex flex-row justify-start">
                     <div className="flex-col flex p-5">
@@ -67,11 +65,10 @@ export default function MoneyPage(props: any) {
                         <div><ButtonLink type="green" href={"/money/moves/new"}>New Move</ButtonLink></div>
                         <div><ButtonLink type="green" href={"/money/moves/manage"}>Manage Moves</ButtonLink></div>
                     </div>
-                    <div className="flex-col flex pt-5"><BulkNew setModalOpen={onOpen} /></div>
+                    <div className="hidden md:flex flex-col pt-5"><BulkNew setModalOpen={onOpen} /></div>
                 </div>
             </section>
             <section className="w-full text-center">
-                {isDemo && <Demo />}
                 <div>
                     {!currencies.length && <div
                         className="bg-red-400 border w-full self-center border-red-900 text-black px-4">

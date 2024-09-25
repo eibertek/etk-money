@@ -5,12 +5,12 @@ import { createContext } from "react";
 
 
 interface IFormProps {
-    children: string | JSX.Element | JSX.Element[];
+    children?: string | JSX.Element | JSX.Element[];
     initialValues: any;
     onSubmit?: (values: any, actions: any) => void;
 }
 
-export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any)=>{ console.log(values)} });
+export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any)=>{ } });
 
 const FormComponent = ({ initialValues, children, onSubmit }: IFormProps) => {
     return (
