@@ -1,5 +1,5 @@
 import { Field, FieldProps } from "formik";
-import { Checkbox, Flex, FormControl, FormLabel } from "@chakra-ui/react";
+import { Button, Checkbox, Flex, FormControl, FormLabel } from "@chakra-ui/react";
 import {
     Menu,
     MenuButton,
@@ -52,7 +52,7 @@ export const MultselectComponent = ({ options, save}: {options:any[], save: (val
         <Menu closeOnSelect={false}  onClose={saveToParent}>
             {({ isOpen }) => (
                 <>
-                    <MenuButton>
+                    <MenuButton as={Button}>
                         <Flex><Box width={"300px"} textAlign={"justify"}>{isOpen ? "Select Items" : `${buttonText}`}</Box> {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</Flex>
                     </MenuButton>
                     <MenuList maxHeight="15rem" overflowY="scroll">

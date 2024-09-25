@@ -1,7 +1,7 @@
-import { Box, Button, Card, Flex, Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { storageHook } from "../hooks/Storage";
 import crypto from "crypto";
-import FilterComponent from "./filters";
+import FilterComponent, { IFilterProps } from "./filters";
 import {
     Modal,
     ModalOverlay,
@@ -11,6 +11,7 @@ import {
     ModalCloseButton,
     useDisclosure,
 } from '@chakra-ui/react';
+import Chart from "@/components/charts/chart";
 
 const ChartsComponent = () => {
     const moves = storageHook('move').getAll();
@@ -36,13 +37,9 @@ const ChartsComponent = () => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            <Flex direction={"row"} margin={4} gap={4}>
-                {charts && charts.map((item:any, index:number) => (
-                    <Card key={`key_chart_${index}`} padding={2}>                        
-                        <SkeletonCircle margin={2}></SkeletonCircle>
-                        {item.title}
-                        {Object.entries(item).map(it => it[1]).join("-")}
-                    </Card>
+            <Flex direction={"row"} margin={4} gap={5} justifyContent={"center"}>
+                {charts && charts.map((item: IFilterProps, index: number) => (
+                    <Chart key={`key_chart_${item.title}`} moves={moves} filters={item} />
                 ))}
             </Flex>
         </>

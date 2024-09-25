@@ -14,7 +14,7 @@ interface IFormProps {
     onSubmit?: (values: any, actions: any) => void;
 }
 
-export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any) => { console.log(values) } });
+export const FormPropsContext = createContext({ errors: {}, values: {}, setValues: (values: any) => { } });
 
 export const FilterPropsContext = createContext({});
 

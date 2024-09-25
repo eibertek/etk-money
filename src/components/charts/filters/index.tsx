@@ -15,6 +15,19 @@ interface IFormProps {
     onSubmit?: (values: any, actions: any) => void;
 }
 
+export interface IFilterProps {
+    title?: string;
+    chart?: string;
+    date_from?: Date;
+    date_to?:Date;
+    client?: string[];
+    currency?: string[];
+    amount_from?: string;
+    amount_to?: string;
+    type?: string; 
+};
+
+
 const FilterComponent = ({ initialValues = {}, onSubmit }: IFormProps) => {
     const [clients, setClients] = useState([] as Client[]);
     const [currencies, setCurrencies] = useState([] as Currency[]);
@@ -45,7 +58,7 @@ const FilterComponent = ({ initialValues = {}, onSubmit }: IFormProps) => {
             <Dropdown key={`field_filter_chart`} options={chartOptions} field={`chart`} validationRules={{[ALLOW_EMPTY]: false}} />
             <DateRange key={`field_filter_date`} field={`date`} />
             <MultiSelect key={`field_filter_client`} options={clientOptions} field={`client`} />
-            <Dropdown key={`field_filter_currency`} options={currencyOptions} field={`currency`} />
+            <MultiSelect key={`field_filter_currency`} options={currencyOptions} field={`currency`} />
             <Range key={`field_filter_amount`} field={`amount`} />
             <Dropdown field={`type`} key={`field_filter_type`} options={typeOptions} />
         </FormComponent>
